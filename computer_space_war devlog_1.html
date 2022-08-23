@@ -13,9 +13,9 @@
    <body>
    <h2 id="should-read-the-k-r-thoroughly">Should read the K&amp;R thoroughly</h2>
 <p>I was coding a  &quot;computer space&quot;- like game,  and one day I  found something unusual. my spacecraft should be at a position &quot; 250 , 250 &quot; near top left corner of the window  when the game starts. </p>
-<p><img src="/personal_homepage/images/spaceship_no_problem.png" alt="image">
+<p><img src="/personal_homepage/images/spaceship_no_problem.png" alt="image" width="250" height="250">
 However, it was nowhere to be fonud.  Looking through my code and executing my game for several times, the spacecraft was  positioned at bottom left of  the screen.</p>
-<p><img src="/personal_homepage/images/spaceship_error.png" alt="image">
+<p><img src="/personal_homepage/images/spaceship_error.png" alt="image" width="250" height="250">
 immediately , I recalled that the position of the player spacecraft was updated every frame, so it must have something to do with this weird behaviour. I commented out the updating part of the code, and the spacecraft was at (250, 250) again, back to normal. </p>
 <pre><code class="lang-C"><span class="hljs-built_in">float</span> radian = (-<span class="hljs-number">45.</span>f + player_ship.rotation) * <span class="hljs-number">3.</span>41592f / <span class="hljs-number">180.</span>f;
 //player_ship.<span class="hljs-keyword">position</span>.x += (player_ship.power * (<span class="hljs-built_in">cos</span>(radian) + <span class="hljs-built_in">sin</span>(radian)) * GetFrameTime());
@@ -78,7 +78,7 @@ I looked at my code again and discovered that I added <code>char DebugBuffer[2]<
 — for an enumeration constant or typedef name, is the (only) declaration of the identifier.</p>
 </blockquote>
 <p>and also opened the classic K&amp;R and read Declarations part.
-![image](/personal_homepage/images/kandr.png]</p>
+<img src="/personal_homepage/images/kandr.png" alt="image" width="250" height="250"></p>
 <p>Indeed, declarations  do not <em>necessarily</em> reserve memory space for a variable. Definition of that variable does. So, is it possible that the memory space of the two variables may overlap when they are only declared, but not defined?
 But then wait.. when does a declaration or a definition  for a variable happens in C ? is the initialization?  And I found this on GeeksforGeeks.</p>
 <p><em><a href="https://www.geeksforgeeks.org/difference-between-definition-and-declaration/">Difference between Definition and Declaration - GeeksforGeeks</a></em></p>
