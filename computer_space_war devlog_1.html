@@ -79,8 +79,8 @@ I looked at my code again and discovered that I added <code>char DebugBuffer[2]<
 — for a function, includes the function body;101) 
 — for an enumeration constant or typedef name, is the (only) declaration of the identifier.</p>
 </blockquote>
-<p>and also opened the classic K&amp;R and read Declarations part.
-<img src="/personal_homepage/images/kandr.png" alt="image" width="950" height="250"></p>
+<p>and also opened the classic K&amp;R and read Declarations part.</p>
+<br><img src="/personal_homepage/images/kandr.png" alt="image" width="950" height="250"><br>
 <p>Indeed, declarations  do not <em>necessarily</em> reserve memory space for a variable. Definition of that variable does. So, is it possible that the memory space of the two variables may overlap when they are only declared, but not defined?
 But then wait.. when does a declaration or a definition  for a variable happens in C ? is the initialization?  And I found this on GeeksforGeeks.</p>
 <p><em><a href="https://www.geeksforgeeks.org/difference-between-definition-and-declaration/">Difference between Definition and Declaration - GeeksforGeeks</a></em></p>
