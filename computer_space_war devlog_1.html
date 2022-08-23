@@ -101,7 +101,7 @@ the value could have been garbage anytime because I did not initialize it. Obvis
 Because  the value of  <code>player_ship.power</code>  was zero most of the time, but had  garbage  value only when <code>DebugBuffer</code> &#39;s size was from 2 to 5, I assumed that the size of that array must matter somehow.</p>
 <p>When using a struct, dont forget to initialize all the members!
 Or better, I will use  <code>memset</code> from now on to ensure that the memory space allocated had no garbage, but the initial values that I set.</p>
-<div style="background-color:Black color:White">                                                                          
+<div style="background-color:Black; color:White;">                                                                          
 <pre><code class="lang-C" >    struct SpaceCraft player_ship;
     memset(&amp;player_ship,<span class="hljs-number">0</span>,sizeof(struct SpaceCraft));
     player_ship.power = <span class="hljs-number">0.0</span>f,
