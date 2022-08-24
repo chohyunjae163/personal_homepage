@@ -13,74 +13,75 @@
    <body>
    <a href="/personal_homepage/index.html">Home</a>
     <hr>
-   <h2 id="should-read-the-k-r-thoroughly">Should read the K&amp;R thoroughly</h2>
-<p>I was coding a  &quot;computer space&quot;- like game,  and one day I  found something unusual. my spacecraft should be at a position &quot; 250 , 250 &quot; near top left corner of the window  when the game starts. </p>
-<p><img src="/personal_homepage/images/spaceship_no_problem.png" alt="image" width="250" height="250"> <br>
+   <h2>Should read the K&amp;R thoroughly</h2>
+<p>I was coding a  &quot;computer space&quot;- like game,  and one day I  found something unusual. my spacecraft should be at a position &quot; 250 , 250 &quot; near top left corner of the window  when the game starts.</p>
+<p><img src="./personal_homepage/images/spaceship_no_problem.png" alt="Image" title="spaceship_no_problem" />
 However, it was nowhere to be fonud.  Looking through my code and executing my game for several times, the spacecraft was  positioned at bottom left of  the screen.</p>
-<p><img src="/personal_homepage/images/spaceship_error.png" alt="image" width="250" height="250"><br>
-immediately , I recalled that the position of the player spacecraft was updated every frame, so it must have something to do with this weird behaviour. I commented out the updating part of the code, and the spacecraft was at (250, 250) again, back to normal. </p>
-<pre><code class="lang-C"><span class="hljs-built_in">float</span> radian = (-<span class="hljs-number">45.</span>f + player_ship.rotation) * <span class="hljs-number">3.</span>41592f / <span class="hljs-number">180.</span>f;
-//player_ship.<span class="hljs-keyword">position</span>.x += (player_ship.power * (<span class="hljs-built_in">cos</span>(radian) + <span class="hljs-built_in">sin</span>(radian)) * GetFrameTime());
-<span class="hljs-keyword">if</span>(player_ship.<span class="hljs-keyword">position</span>.x &gt; SCREEN_WIDTH)
- {
-    player_ship.<span class="hljs-keyword">position</span>.x  = <span class="hljs-number">0.</span>f;
- }
- <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( player_ship.<span class="hljs-keyword">position</span>.x &lt; <span class="hljs-number">0.</span>f)
-{
-    player_ship.<span class="hljs-keyword">position</span>.x = SCREEN_WIDTH;
-}
-//player_ship.<span class="hljs-keyword">position</span>.y += (player_ship.power * (<span class="hljs-built_in">sin</span>(radian) - <span class="hljs-built_in">cos</span> (radian)) * GetFrameTime());
-<span class="hljs-keyword">if</span>(player_ship.<span class="hljs-keyword">position</span>.y &gt; SCREEN_HEIGHT)
-{
-    player_ship.<span class="hljs-keyword">position</span>.y = <span class="hljs-number">0.</span>f;
-}
-<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(player_ship.<span class="hljs-keyword">position</span>.y &lt; <span class="hljs-number">0.</span>f)
-{
-    player_ship.<span class="hljs-keyword">position</span>.y = SCREEN_HEIGHT;
-}
+<p><img src="./personal_homepage/images/spaceship_error.png" alt="Image" title="error" />
+immediately , I recalled that the position of the player spacecraft was updated every frame, so it must have something to do with this weird behaviour. I commented out the updating part of the code, and the spacecraft was at (250, 250) again, back to normal.</p>
+<pre><code>            //update player_ship positions
+            float radian = (-45.0f + player_ship.rotation) * 3.141592f / 180.0f;
+            player_ship.position.x += (player_ship.power * (cos(radian) + sin(radian)) * GetFrameTime());
+            if(player_ship.position.x &gt; SCREEN_WIDTH)
+            {
+                player_ship.position.x  = 0.0f;
+            }
+            else if( player_ship.position.x &lt; 0.0f)
+            {
+                player_ship.position.x = SCREEN_WIDTH;
+            }
+            player_ship.position.y += (player_ship.power * (sin(radian) - cos (radian)) * GetFrameTime());
+            if(player_ship.position.y &gt; SCREEN_HEIGHT)
+            {
+                player_ship.position.y = 0.0f;
+            }
+            else if(player_ship.position.y &lt; 0.0f)
+            {
+                player_ship.position.y = SCREEN_HEIGHT;
+            }
 </code></pre>
-<p>Reading the spacecraft position updating line of the code, I found that <code>player_ship.power</code>  had a ridiculous value and that was what made the location messed up.  I assumed that I could find something at the initialization of <code>player_ship</code> and I did. I forgot to initialize the power variable to zero as I should have been.  </p>
-<pre><code class="lang-C">struct SpaceCraft player_ship;
-    <span class="hljs-comment">//player_ship.power = 0.0f, this line was missing.</span>
-    player_ship.position.x = <span class="hljs-number">250</span>;
-    player_ship.position.y = <span class="hljs-number">250</span>;
-    player_ship.<span class="hljs-section">state</span> = ALIVE;
-    player_ship.<span class="hljs-type">rotation</span> = <span class="hljs-number">0.0</span>f;
-    player_ship.fuel = <span class="hljs-number">100.0</span>f;  
-    player_ship.collision_radius = <span class="hljs-number">25.0</span>f;
+<p>Reading the spacecraft position updating line of the code, I found that <code>player_ship.power</code>  had a ridiculous value and that was what made the location messed up.  I assumed that I could find something at the initialization of <code>player_ship</code> and I did. I forgot to initialize the power variable to zero as I should have been.</p>
+<pre><code>    struct SpaceCraft player_ship;
+    //player_ship.power = 0.0f, this line was missing.
+    player_ship.position.x = 250;
+    player_ship.position.y = 250;
+    player_ship.state = ALIVE;
+    player_ship.rotation = 0.0f;
+    player_ship.fuel = 100.0f;  
+    player_ship.collision_radius = 25.0f;
 </code></pre>
-<p>After set its value to zero, my spacecraft worked well. But then, several doubts came to my mind 
+<p>After set its value to zero, my spacecraft worked well. But then, several doubts came to my mind
 &quot;why now?&quot;.
 &quot;How was this working all fine before?&quot;
 &quot;Was it was just luck that the value of power was begin zero all the time?&quot;
-I looked at my code again and discovered that I added <code>char DebugBuffer[2]</code> for a debugging purpose. I assumed that it might have something to do with the value of <code>player_ship power</code>. </p>
-<pre><code class="lang-C">    char RemainTimeBuffer[<span class="hljs-number">15</span>] = { <span class="hljs-number">0</span> };
-    char DebugBuffer[<span class="hljs-number">2</span>];
-
+I looked at my code again and discovered that I added <code>char DebugBuffer[2]</code> for a debugging purpose. I assumed that it might have something to do with the value of <code>player_ship power</code>.</p>
+<pre><code>    char RemainTimeBuffer[15] = { 0 };
+    char DebugBuffer[2];
+    
     struct SpaceCraft player_ship;
-    player_ship.power = <span class="hljs-number">0.0</span>f,
-    player_ship.position.x = <span class="hljs-number">250</span>;
-    player_ship.position.y = <span class="hljs-number">250</span>;
-    player_ship.<span class="hljs-section">state</span> = ALIVE;
-    player_ship.<span class="hljs-type">rotation</span> = <span class="hljs-number">0.0</span>f;
-    player_ship.fuel = <span class="hljs-number">100.0</span>f;  
-    player_ship.collision_radius = <span class="hljs-number">25.0</span>f;
+    player_ship.power = 0.0f,
+    player_ship.position.x = 250;
+    player_ship.position.y = 250;
+    player_ship.state = ALIVE;
+    player_ship.rotation = 0.0f;
+    player_ship.fuel = 100.0f;  
+    player_ship.collision_radius = 25.0f;
 </code></pre>
-<p>Surprisingly, when I changed the size of <code>DebugBuffer</code> to 10 or 12, the position of the spacecraft was all normal again. (It was at the position (250,250) when the game starts).  I experimented with different sizes and I found that the value of  <code>player_ship.power</code> became garbage when the size of DebugBuffer was between 2 to 5. Otherwise, the value of the power was zero.  </p>
-<p>This was weird. the size of an array variable seems to be affecting next variable&#39;s value. I  speculated that the memory space of two variables ( <code>DebugBuffer</code>  and <code>player_ship.power</code> )  might overlap because maybe the memory is not allocated when the variable is declared?  To find out, I went to StackOverflow and did some research on when the memory is stored for a variable in C.
+<p>Surprisingly, when I changed the size of <code>DebugBuffer</code> to 10 or 12, the position of the spacecraft was all normal again. (It was at the position (250,250) when the game starts).  I experimented with different sizes and I found that the value of  <code>player_ship.power</code> became garbage when the size of DebugBuffer was between 2 to 5. Otherwise, the value of the power was zero.</p>
+<p>This was weird. the size of an array variable seems to be affecting next variable's value. I  speculated that the memory space of two variables ( <code>DebugBuffer</code>  and <code>player_ship.power</code> )  might overlap because maybe the memory is not allocated when the variable is declared?  To find out, I went to StackOverflow and did some research on when the memory is stored for a variable in C.
 <a href="https://stackoverflow.com/questions/18843673/does-variable-declaration-mean-memory-allocation">c - Does variable declaration mean memory allocation? - Stack Overflow</a></p>
 <blockquote>
 <p>Nothing in the standard mandates that there is a stack. And nothing in the standard mandates that a local variable needs memory allocated for it. The variable could be placed in a register, or even removed altogether as an optimization.</p>
 </blockquote>
-<p>To look for more official documentation. I downloaded C99 Spec PDF and read declaration part. </p>
+<p>To look for more official documentation. I downloaded C99 Spec PDF and read declaration part.</p>
 <blockquote>
-<p>5 A declaration specifies the interpretation and attributes of a set of identifiers. A definition of an identifier is a declaration for that identifier that: 
-— for an object, causes storage to be reserved for that object; 
-— for a function, includes the function body;101) 
+<p>5 A declaration specifies the interpretation and attributes of a set of identifiers. A definition of an identifier is a declaration for that identifier that:
+— for an object, causes storage to be reserved for that object;
+— for a function, includes the function body;101)
 — for an enumeration constant or typedef name, is the (only) declaration of the identifier.</p>
 </blockquote>
-<p>and also opened the classic K&amp;R and read Declarations part.</p>
-<br><img src="/personal_homepage/images/kandr.png" alt="image" width="950" height="250"><br>
+<p>and also opened the classic K&amp;R and read Declarations part.
+<img src="./personal_homepage/images/kandr.png" alt="Image" title="kr" /></p>
 <p>Indeed, declarations  do not <em>necessarily</em> reserve memory space for a variable. Definition of that variable does. So, is it possible that the memory space of the two variables may overlap when they are only declared, but not defined?
 But then wait.. when does a declaration or a definition  for a variable happens in C ? is the initialization?  And I found this on GeeksforGeeks.</p>
 <p><em><a href="https://www.geeksforgeeks.org/difference-between-definition-and-declaration/">Difference between Definition and Declaration - GeeksforGeeks</a></em></p>
@@ -89,31 +90,31 @@ But then wait.. when does a declaration or a definition  for a variable happens 
 <p><strong>Declaration</strong> of a variable is for informing the compiler of the following information: name of the variable, type of value it holds, and the initial value if any it takes. i.e., declaration gives details about the properties of a variable. Whereas, <strong>Definition</strong> of a variable says where the variable gets stored. i.e., memory for the variable is allocated during the definition of the variable. In C language definition and declaration for a variable takes place at the same time.</p>
 </blockquote>
 </blockquote>
-<p>how stupid! I equated  <em>definition</em> with <em>initialization</em>. I was thinking that declaration is a variable &quot;declaration&quot; without initializing it.   In C language, declaration and definition for a variable happen ata the same time. </p>
-<pre><code class="lang-C">char DebugBuffer<span class="hljs-selector-attr">[2]</span>;
+<p>how stupid! I equated  <em>definition</em> with <em>initialization</em>. I was thinking that declaration is a variable &quot;declaration&quot; without initializing it.   In C language, declaration and definition for a variable happen ata the same time.</p>
+<pre><code class="language-C">char DebugBuffer[2];
 </code></pre>
-<p>This variable is <em>declared and defined</em>. So memory for it is allocated. Thus, the memory of the array overlaps the memory of the next variable is not possible. 
+<p>This variable is <em>declared and defined</em>. So memory for it is allocated. Thus, the memory of the array overlaps the memory of the next variable is not possible.
 I realize how ridiculous that sounds as I write it lol. If the variable is only declared  using  <code>extern</code> keyword, there is nothing to overlap in the first place because there is no memory allocation for that declared-only variable</p>
-<p>so then what? what is happening in my code? 
-When the size of the character array buffer changes, the value of player_ship.power changes too. </p>
-<p>It turns out that the answer was simple. I was actually lucky not getting the garbage value before. 
+<p>so then what? what is happening in my code?
+When the size of the character array buffer changes, the value of player_ship.power changes too.</p>
+<p>It turns out that the answer was simple. I was actually lucky not getting the garbage value before.
 the value could have been garbage anytime because I did not initialize it. Obvisouly, there was no guarantee that the value of power was zero all the time.
-Because  the value of  <code>player_ship.power</code>  was zero most of the time, but had  garbage  value only when <code>DebugBuffer</code> &#39;s size was from 2 to 5, I assumed that the size of that array must matter somehow.</p>
+Because  the value of  <code>player_ship.power</code>  was zero most of the time, but had  garbage  value only when <code>DebugBuffer</code> 's size was from 2 to 5, I assumed that the size of that array must matter somehow.</p>
 <p>When using a struct, dont forget to initialize all the members!
 Or better, I will use  <code>memset</code> from now on to ensure that the memory space allocated had no garbage, but the initial values that I set.</p>
-                                                                      
-<pre><code class="lang-C" >    struct SpaceCraft player_ship;
-    memset(&amp;player_ship,<span class="hljs-number">0</span>,sizeof(struct SpaceCraft));
-    player_ship.power = <span class="hljs-number">0.0</span>f,
-    player_ship.position.x = <span class="hljs-number">250</span>;
-    player_ship.position.y = <span class="hljs-number">250</span>;
-    player_ship.<span class="hljs-section">state</span> = ALIVE;
-    player_ship.<span class="hljs-type">rotation</span> = <span class="hljs-number">0.0</span>f;
-    player_ship.fuel = <span class="hljs-number">100.0</span>f;  
-    player_ship.collision_radius = <span class="hljs-number">25.0</span>f;
+<pre><code class="language-C">    struct SpaceCraft player_ship;
+    memset(&amp;player_ship,0,sizeof(struct SpaceCraft));
+    player_ship.power = 0.0f,
+    player_ship.position.x = 250;
+    player_ship.position.y = 250;
+    player_ship.state = ALIVE;
+    player_ship.rotation = 0.0f;
+    player_ship.fuel = 100.0f;  
+    player_ship.collision_radius = 25.0f;
 </code></pre>
 <p>After this incident, I realized that I never finished the K&amp;R. I read it time to time here and there,  but I never &quot;studied&quot; it, focusing line by line and try to understand fully what it means.
 I should make some time for reading too, not just using all my free time for creating a game.</p>
 <p>Happy Coding :)</p>
+
 </body>
 </html>
