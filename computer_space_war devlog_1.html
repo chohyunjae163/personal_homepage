@@ -19,26 +19,27 @@
 <p>However, it was nowhere to be fonud.  Looking through my code and executing my game for several times, the spacecraft was  positioned at bottom left of  the screen.</p>
 <p><img src="./images/spaceship_error.png" alt="Image" title="error"  width="250" height="250" /></p>
 <p>immediately , I recalled that the position of the player spacecraft was updated every frame, so it must have something to do with this weird behaviour. I commented out the updating part of the code, and the spacecraft was at (250, 250) again, back to normal.</p>
-<pre><code>            //update player_ship positions
-            float radian = (-45.0f + player_ship.rotation) * 3.141592f / 180.0f;
-            player_ship.position.x += (player_ship.power * (cos(radian) + sin(radian)) * GetFrameTime());
-            if(player_ship.position.x &gt; SCREEN_WIDTH)
-            {
-                player_ship.position.x  = 0.0f;
-            }
-            else if( player_ship.position.x &lt; 0.0f)
-            {
-                player_ship.position.x = SCREEN_WIDTH;
-            }
-            player_ship.position.y += (player_ship.power * (sin(radian) - cos (radian)) * GetFrameTime());
-            if(player_ship.position.y &gt; SCREEN_HEIGHT)
-            {
-                player_ship.position.y = 0.0f;
-            }
-            else if(player_ship.position.y &lt; 0.0f)
-            {
-                player_ship.position.y = SCREEN_HEIGHT;
-            }
+<pre><code>
+    //update player_ship positions
+    float radian = (-45.0f + player_ship.rotation) * 3.141592f / 180.0f;
+    player_ship.position.x += (player_ship.power * (cos(radian) + sin(radian)) * GetFrameTime());
+    if(player_ship.position.x &gt; SCREEN_WIDTH)
+    {
+        player_ship.position.x  = 0.0f;
+    }
+    else if( player_ship.position.x &lt; 0.0f)
+    {
+        player_ship.position.x = SCREEN_WIDTH;
+    }
+    player_ship.position.y += (player_ship.power * (sin(radian) - cos (radian)) * GetFrameTime());
+    if(player_ship.position.y &gt; SCREEN_HEIGHT)
+    {
+        player_ship.position.y = 0.0f;
+    }
+    else if(player_ship.position.y &lt; 0.0f)
+    {
+        player_ship.position.y = SCREEN_HEIGHT;
+    }
 </code></pre>
 <p>Reading the spacecraft position updating line of the code, I found that <code>player_ship.power</code>  had a ridiculous value and that was what made the location messed up.  I assumed that I could find something at the initialization of <code>player_ship</code> and I did. I forgot to initialize the power variable to zero as I should have been.</p>
 <pre><code>    struct SpaceCraft player_ship;
