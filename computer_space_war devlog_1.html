@@ -12,7 +12,7 @@
             }
             .code {
 		color : #ecf0f1;
-                background-color: #01a3a4;
+                background-color: #4b7bec;
             }
         </style>
     </head>
@@ -29,8 +29,8 @@
             (250, 250) again, back to normal.
         </p>
         <div class="code">
-            <pre><code>
-    //update player_ship positions
+	<pre><code>
+	//update player_ship positions
     float radian = (-45.0f + player_ship.rotation) * 3.141592f / 180.0f;
     player_ship.position.x += (player_ship.power * (cos(radian) + sin(radian)) * GetFrameTime());
     if(player_ship.position.x &gt; SCREEN_WIDTH)
@@ -50,13 +50,14 @@
     {
         player_ship.position.y = SCREEN_HEIGHT;
     }
-		</code></pre>
+    </code></pre>
         </div>
         <p>Reading the spacecraft position updating line of the code, I found that <code>player_ship.power</code> had a ridiculous value and</p>
         <p>that was what made the location messed up. I assumed that I could find something at the initialization of <code>player_ship</code> and I did.</p>
         <p>I forgot to initialize the power variable to zero as I should have been.</p>
         <div class="code">
-            <pre><code>    struct SpaceCraft player_ship;
+            <pre><code>
+	    struct SpaceCraft player_ship;
     //player_ship.power = 0.0f, this line was missing.
     player_ship.position.x = 250;
     player_ship.position.y = 250;
@@ -64,7 +65,7 @@
     player_ship.rotation = 0.0f;
     player_ship.fuel = 100.0f;  
     player_ship.collision_radius = 25.0f;
-            </code></pre>
+    </code></pre>
         </div>
         <p>
             After set its value to zero, my spacecraft worked well. But then, several doubts came to my mind &quot;why now?&quot;. &quot;How was this working all fine before?&quot; &quot;Was it was just luck that the value of power was
