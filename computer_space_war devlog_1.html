@@ -7,10 +7,12 @@
         <title>my devlog</title>
         <style>
             body {
+		font-family: Helvetica;
                 color: #333333;
                 backgorund-color: #bdc3c7;
             }
             .code {
+		font-family: Courier New;
 		color : #ecf0f1;
                 background-color: #3d3d3d;
             }
@@ -30,7 +32,7 @@
         </p>
         <div class="code">
 	<pre><code>
-	//update player_ship positions
+    //update player_ship positions
     float radian = (-45.0f + player_ship.rotation) * 3.141592f / 180.0f;
     player_ship.position.x += (player_ship.power * (cos(radian) + sin(radian)) * GetFrameTime());
     if(player_ship.position.x &gt; SCREEN_WIDTH)
@@ -57,8 +59,9 @@
         <p>I forgot to initialize the power variable to zero as I should have been.</p>
         <div class="code">
             <pre><code>
-	    struct SpaceCraft player_ship;
-    //player_ship.power = 0.0f, this line was missing.
+    struct SpaceCraft player_ship;
+    //this line was missing.
+    //player_ship.power = 0.0f;
     player_ship.position.x = 250;
     player_ship.position.y = 250;
     player_ship.state = ALIVE;
