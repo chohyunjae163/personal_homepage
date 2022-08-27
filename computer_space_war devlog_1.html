@@ -40,7 +40,7 @@
 		<pre><code>
     //update player_ship positions
     float radian = (-45.0f + player_ship.rotation) * 3.141592f / 180.0f;
-    player_ship.position.x += (player_ship.power * (cos(radian) + sin(radian)) * GetFrameTime());
+    //player_ship.position.x += (player_ship.power * (cos(radian) + sin(radian)) * GetFrameTime());
     if(player_ship.position.x &gt; SCREEN_WIDTH)
     {
         player_ship.position.x  = 0.0f;
@@ -49,7 +49,7 @@
     {
         player_ship.position.x = SCREEN_WIDTH;
     }
-    player_ship.position.y += (player_ship.power * (sin(radian) - cos (radian)) * GetFrameTime());
+    //player_ship.position.y += (player_ship.power * (sin(radian) - cos (radian)) * GetFrameTime());
     if(player_ship.position.y &gt; SCREEN_HEIGHT)
     {
         player_ship.position.y = 0.0f;
