@@ -90,31 +90,44 @@
     player_ship.collision_radius = 25.0f;
             </code></pre>
         </div>
-        <p>
-            Surprisingly, when I changed the size of <code>DebugBuffer</code> to 10 or 12, the position of the spacecraft was all normal again. (It was at the position (250,250) when the game starts). I experimented with different sizes and
-            I found that the value of <code>player_ship.power</code> became garbage when the size of DebugBuffer was between 2 to 5. Otherwise, the value of the power was zero.
-        </p>
-        <p>
-            This was weird. the size of an array variable seems to be affecting next variable's value. I speculated that the memory space of two variables ( <code>DebugBuffer</code> and <code>player_ship.power</code> ) might overlap because
-            maybe the memory is not allocated when the variable is declared? To find out, I went to StackOverflow and did some research on when the memory is stored for a variable in C.
-            <a href="https://stackoverflow.com/questions/18843673/does-variable-declaration-mean-memory-allocation">c - Does variable declaration mean memory allocation? - Stack Overflow</a>
-        </p>
+        <p> Surprisingly, when I changed the size of <code>DebugBuffer</code> to 10 or 12, the position of the spacecraft was all normal again. </p>
+	<p> (It was at the position (250,250) when the game starts). I experimented with different sizes and </p>
+        <p> I found that the value of <code>player_ship.power</code> became garbage when the size of DebugBuffer was between 2 to 5. </p>
+	<p> Otherwise, the value of the power was zero.</p>
+        <p> This was weird. the size of an array variable seems to be affecting next variable's value. </p>
+        <p> I speculated that the memory space of two variables ( <code>DebugBuffer</code> and <code>player_ship.power</code> ) </p>
+        <p> might overlap because maybe the memory is not allocated when the variable is declared? </p>
+        <p> To find out, I went to StackOverflow and did some research on when the memory is stored for a variable in C.</p>
         <blockquote>
             <p>
-                Nothing in the standard mandates that there is a stack. And nothing in the standard mandates that a local variable needs memory allocated for it. The variable could be placed in a register, or even removed altogether as an
-                optimization.
+                
+		<p>
+			<em>
+			Nothing in the standard mandates that there is a stack. 
+			And nothing in the standard mandates that a local variable needs memory allocated for it. 
+			The variable could be placed in a register, 
+			or even removed altogether as an optimization.
+			</em>
+		</p>	
             </p>
         </blockquote>
+	    <p><a href="https://stackoverflow.com/questions/18843673/does-variable-declaration-mean-memory-allocation"> Does variable declaration mean memory allocation? - Stack Overflow</a></p>    
         <p>To look for more official documentation. I downloaded C99 Spec PDF and read declaration part.</p>
         <blockquote>
-            <p>
+            	<p><em>
                 5 A declaration specifies the interpretation and attributes of a set of identifiers. A definition of an identifier is a declaration for that identifier that: — for an object, causes storage to be reserved for that object; —
                 for a function, includes the function body;101) — for an enumeration constant or typedef name, is the (only) declaration of the identifier.
-            </p>
+		</em></p>
         </blockquote>
         <p>and also opened the classic K&amp;R and found Declarations on page 210.</p>
 
-        <blockquote>Declarations specify the interpretation given to each identifier; they do not necessarily reserve storage associated with the identifier. Declarations that reserve storage are called <em>definitions</em>.</blockquote>
+        <blockquote>
+		<em>
+		Declarations specify the interpretation given to each identifier; 
+		they do not necessarily reserve storage associated with the identifier. 
+		Declarations that reserve storage are called definitions.
+		</em>
+	</blockquote>
         <p><cite>The C Programing Language</cite> by Brian W. Kernighan and Dennis M. Ritchie</p>
 
         <p>
