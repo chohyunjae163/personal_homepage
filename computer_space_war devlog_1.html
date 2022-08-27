@@ -114,7 +114,7 @@
 		<p>The variable could be placed in a register, </p>
 		<p>or even removed altogether as an optimization.</p>
 		<p><a href="https://stackoverflow.com/questions/18843673/does-variable-declaration-mean-memory-allocation"> 
-		Does variable declaration mean memory allocation? - Stack Overflow</a></p>		
+		- Does variable declaration mean memory allocation? - Stack Overflow - </a></p>		
 		</em>
         </blockquote>  
         <p>To look for more official documentation. I downloaded C99 Spec PDF and read declaration part.</p>
@@ -137,18 +137,16 @@
 		<p>they do not necessarily reserve storage associated with the identifier. </p>
 		<p>Declarations that reserve storage are called definitions.</p>
 		</em>
+		<p><cite> - The C Programing Language</cite> by Brian W. Kernighan and Dennis M. Ritchie - </p>
 	</blockquote>
-        <p><cite>The C Programing Language</cite> by Brian W. Kernighan and Dennis M. Ritchie</p>
+        
         <p>Indeed, declarations do not <em>necessarily</em> reserve memory space for a variable. </p>
 	<p>Definition of that variable does. </p>
 	<p>So, is it possible that the memory space of the two variables may overlap when they are only declared, but not defined? </p>
 	<p>But then wait.. when does a declaration or a definition for a variable happens in C ? </p>
 	<p>Is it the initialization? </p>
 	<p>And I found this on GeeksforGeeks.</p>
-        <p>
-            <em><a href="https://www.geeksforgeeks.org/difference-between-definition-and-declaration/">
-		    Difference between Definition and Declaration - GeeksforGeeks</a></em>
-        </p>
+
         <blockquote>
 		<em><p><strong>Declaration</strong> of a variable is for informing the compiler of the following information:  </p>
 		<p>name of the variable, </p>
@@ -158,6 +156,10 @@
 		<p>Whereas, <strong>Definition</strong> of a variable says where the variable gets stored. </p>
 		<p>i.e., memory for the variable is allocated during the definition of the variable. </p>
 		<p>In C language definition and declaration for a variable takes place at the same time.</em> </p>
+	        <p>
+            	<em><a href="https://www.geeksforgeeks.org/difference-between-definition-and-declaration/">
+		    - Difference between Definition and Declaration -</a></em>
+        	</p>
         </blockquote>
         <p>how stupid! I equated <em>definition</em> with <em>initialization</em>. </p>
 	<p>I was thinking that declaration is a variable &quot;declaration&quot; without initializing it. </p>
