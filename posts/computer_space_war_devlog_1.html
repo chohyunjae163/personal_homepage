@@ -74,9 +74,9 @@
             </div>
 	    
             <p>Reading the spacecraft position updating line of the code,</p>
-	        <p>I found that <code>player_ship.power</code> had a ridiculous value and</p>
+	    <p>I found that <code>player_ship.power</code> had a ridiculous value and</p>
             <p>that was what made the location messed up. </p>
-	        <p>I assumed that I could find something at the initialization of <code>player_ship</code> and I did.</p>
+	    <p>I assumed that I could find something at the initialization of <code>player_ship</code> and I did.</p>
             <p>I forgot to initialize the power variable to zero as I should have been.</p>
             <div class="code">
                 <pre><code>
@@ -92,12 +92,12 @@
                 </code></pre>
             </div>
             <p>After set its value to zero, my spacecraft worked well. </p>
-	        <p>But then, several doubts came to my mind. </p>
-	        <p>&quot;why now?&quot;.</p>
-	        <p>&quot;How was this working all fine before?&quot; </p>
-	        <p>&quot;Was it was just luck that the value of power was begin zero all the time?&quot; </p>
-	        <p>I looked at my code again and discovered that I added <code>char DebugBuffer[2]</code> for a debugging purpose. </p>
-	        <p>I assumed that it might have something to do with the value of <code>player_ship power</code>.</p>
+	    <p>But then, several doubts came to my mind. </p>
+	    <p>&quot;why now?&quot;.</p>
+	    <p>&quot;How was this working all fine before?&quot; </p>
+	    <p>&quot;Was it was just luck that the value of power was begin zero all the time?&quot; </p>
+	    <p>I looked at my code again and discovered that I added <code>char DebugBuffer[2]</code> for a debugging purpose. </p>
+	    <p>I assumed that it might have something to do with the value of <code>player_ship power</code>.</p>
             <div class="code">
                 <pre><code>    
     char RemainTimeBuffer[15] = { 0 };
@@ -114,9 +114,9 @@
                 </code></pre>
             </div>
             <p> Surprisingly, when I changed the size of <code>DebugBuffer</code> to 10 or 12, the position of the spacecraft was all normal again. </p>
-        	<p> (It was at the position (250,250) when the game starts). I experimented with different sizes and </p>
+	    <p> (It was at the position (250,250) when the game starts). I experimented with different sizes and </p>
             <p> I found that the value of <code>player_ship.power</code> became garbage when the size of DebugBuffer was between 2 to 5. </p>
-        	<p> Otherwise, the value of the power was zero.</p>
+            <p> Otherwise, the value of the power was zero.</p>
             <p> This was weird. the size of an array variable seems to be affecting next variable's value. </p>
             <p> I speculated that the memory space of two variables ( <code>DebugBuffer</code> and <code>player_ship.power</code> ) </p>
             <p> might overlap because maybe the memory is not allocated when the variable is declared? </p>
@@ -130,9 +130,9 @@
         	        <p><a href="https://stackoverflow.com/questions/18843673/does-variable-declaration-mean-memory-allocation"> - Does variable declaration mean memoryallocation? - Stack Overflow - </a></p>		
         	    </em>
             </blockquote>
-        	<br>
+            <br>
             <p>To look for more official documentation. I downloaded C99 Spec PDF and read declaration part.</p>
-        	<br>
+            <br>
             <blockquote>
                 <em>
                     <p>5 A declaration specifies the interpretation and attributes of a set of identifiers. </p>
@@ -143,62 +143,62 @@
         	        <p>is the (only) declaration of the identifier.</p>
         	    </em>
             </blockquote>
-        	<br>
-        	<p>and also opened the classic K&amp;R and found Declarations on page 210.</p>
-        	<br>
-                <blockquote>
-        		    <em>
-        		        <p>Declarations specify the interpretation given to each identifier; </p>
-        		        <p>they do not necessarily reserve storage associated with the identifier. </p>
-        		        <p>Declarations that reserve storage are called definitions.</p>
-        		    </em>
-        		    <p><cite> - The C Programing Language</cite> by Brian W. Kernighan and Dennis M. Ritchie - </p>
-        	</blockquote>
+            <br>
+            <p>and also opened the classic K&amp;R and found Declarations on page 210.</p>
+            <br>
+            <blockquote>
+        	    <em>
+        	        <p>Declarations specify the interpretation given to each identifier; </p>
+        	        <p>they do not necessarily reserve storage associated with the identifier. </p>
+        	        <p>Declarations that reserve storage are called definitions.</p>
+        	    </em>
+        	    <p><cite> - The C Programing Language</cite> by Brian W. Kernighan and Dennis M. Ritchie - </p>
+            </blockquote>
             <br>
             <p>Indeed, declarations do not <em>necessarily</em> reserve memory space for a variable. </p>
-        	<p>Definition of that variable does. </p>
-        	<p>So, is it possible that the memory space of the two variables may overlap when they are only declared, but not defined? </p>
-        	<p>But then wait.. when does a declaration or a definition for a variable happens in C ? </p>
-        	<p>Is it the initialization? </p>
-        	<p>And I found this on GeeksforGeeks.</p>
+	    <p>Definition of that variable does. </p>
+            <p>So, is it possible that the memory space of the two variables may overlap when they are only declared, but not defined? </p>
+            <p>But then wait.. when does a declaration or a definition for a variable happens in C ? </p>
+            <p>Is it the initialization? </p>
+            <p>And I found this on GeeksforGeeks.</p>
             <blockquote>
-		        <em>
-		            <p><strong>Declaration</strong> of a variable is for informing the compiler of the following information:  </p>
-		            <p>name of the variable, </p>
-		            <p>type of value it holds,  </p>
-		            <p>and the initial value if any it takes. i.e.,  </p>
-		            <p>declaration gives details about the properties of a variable. </p>
-		            <p>Whereas, <strong>Definition</strong> of a variable says where the variable gets stored. </p>
-		            <p>i.e., memory for the variable is allocated during the definition of the variable. </p>
-		            <p>In C language definition and declaration for a variable takes place at the same time. </p>
-		        </em>
-	            <p>
-                	<em><a href="https://www.geeksforgeeks.org/difference-between-definition-and-declaration/"> - Difference between Definition and Declaration -</a></em>
-        	    </p>
+		<em>
+	            	<p><strong>Declaration</strong> of a variable is for informing the compiler of the following information:  </p>
+	            	<p>name of the variable, </p>
+	            	<p>type of value it holds,  </p>
+			<p>and the initial value if any it takes. i.e.,  </p>
+			<p>declaration gives details about the properties of a variable. </p>
+		        <p>Whereas, <strong>Definition</strong> of a variable says where the variable gets stored. </p>
+		        <p>i.e., memory for the variable is allocated during the definition of the variable. </p>
+		        <p>In C language definition and declaration for a variable takes place at the same time. </p>
+		</em>
+	        <p>
+               		<em><a href="https://www.geeksforgeeks.org/difference-between-definition-and-declaration/"> - Difference between Definition and Declaration -</a></em>
+        	</p>
             </blockquote>
             <p>how stupid! I equated <em>definition</em> with <em>initialization</em>. </p>
-	        <p>I was thinking that declaration is a variable &quot;declaration&quot; without initializing it. </p>
-	        <p>In C language, declaration and definition for a variable happen at the same time.</p>
+	    <p>I was thinking that declaration is a variable &quot;declaration&quot; without initializing it. </p>
+	    <p>In C language, declaration and definition for a variable happen at the same time.</p>
             <pre><code class="code">char DebugBuffer[2];</code></pre>
             <p>This variable is <em>declared and defined</em>.  </p>
-	        <p>So memory for it is allocated.  </p>
-	        <p>Thus, the memory of the array overlaps the memory of the next variable is not possible.  </p>
-	        <p>I realize how ridiculous that sounds as I write it lol.  </p>
-	        <p>If the variable is only declared using <code>extern</code> keyword, </p>
-	        <p>there is nothing to overlap in the first place because  </p>
-	        <p>there is no memory allocation for that declared-only variable. </p>
+	    <p>So memory for it is allocated.  </p>
+	    <p>Thus, the memory of the array overlaps the memory of the next variable is not possible.  </p>
+	    <p>I realize how ridiculous that sounds as I write it lol.  </p>
+	    <p>If the variable is only declared using <code>extern</code> keyword, </p>
+	    <p>there is nothing to overlap in the first place because  </p>
+	    <p>there is no memory allocation for that declared-only variable. </p>
             <p>so then what? what is happening in my code? </p>
-	        <p>The value of player_ship.power changes when the size of the character array buffer changes.</p>
+	    <p>The value of player_ship.power changes when the size of the character array buffer changes.</p>
             <p>It turns out that the answer was simple. </p>
-	        <p>I was actually lucky not getting the garbage value before. </p>
-	        <p>the value could have been garbage anytime because I did not initialize it. </p>
-	        <p>Obvisouly, there was no guarantee that the value of power was zero all the time. </p>
-	        <p>Because the value of <code>player_ship.power</code> was zero most of the time,</p>
-	        <p>but had garbage value only when <code>DebugBuffer</code> 's size was from 2 to 5, </p>
-	        <p>I assumed that the size of that array must matter somehow.</p>
+	    <p>I was actually lucky not getting the garbage value before. </p>
+	    <p>the value could have been garbage anytime because I did not initialize it. </p>
+	    <p>Obvisouly, there was no guarantee that the value of power was zero all the time. </p>
+	    <p>Because the value of <code>player_ship.power</code> was zero most of the time,</p>
+	    <p>but had garbage value only when <code>DebugBuffer</code> 's size was from 2 to 5, </p>
+	    <p>I assumed that the size of that array must matter somehow.</p>
             <p>When using a struct, dont forget to initialize all the members! </p>
-	        <p>Or better, I will use <code>memset</code> from now on to ensure that </p>
-	        <p>the memory space allocated had no garbage, but the initial values that I set.</p>
+	    <p>Or better, I will use <code>memset</code> from now on to ensure that </p>
+	    <p>the memory space allocated had no garbage, but the initial values that I set.</p>
             <div class="code">
                 <pre><code class="language-C">    
     struct SpaceCraft player_ship;
@@ -213,9 +213,9 @@
                 </code></pre>
             </div>
             <p>After this incident, I realized that I never finished the K&amp;R.  </p>
-        	<p>I read it time to time here and there, but I never &quot;studied&quot; it,  </p>
-	        <p>focusing line by line and try to understand fully what it means.  </p>
-	        <p>I should make some time for reading too, not just using all my free time for creating a game. </p>
+       	    <p>I read it time to time here and there, but I never &quot;studied&quot; it,  </p>
+	    <p>focusing line by line and try to understand fully what it means.  </p>
+	    <p>I should make some time for reading too, not just using all my free time for creating a game. </p>
             <p>Happy Coding :)</p>
 	    </main>
     </body>
