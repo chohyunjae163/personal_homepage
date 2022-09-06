@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>my devlog</title>
+      <style>
+         a:link {
+         color: #F8F8F8;
+         }
+         a:visited {
+         color: #F8F8F8;
+         }
+      </style>
+   </head>
+   <body style ="color: #F8F8F8; background-color: #1C1C1C">
+     <a href="/personal_homepage/index.html">Home</a>
+     <hr />
+      <main>
+        <h2>Ray Marching</h2>
+        Two days ago, I was binge-watching youtube videos all day, and <br> 
+        an interesting thumbnail of one video clip caught my eyes. <br>
+        The title was "Ray Marching, and making 3D Worlds with Math". <br>
+        <iframe width="320" height="180" src="https://www.youtube.com/embed/BNZtUB7yhX4" title="Ray Marching, and making 3D Worlds with Math" frameborder="0" allow="encrypted-media;" allowfullscreen></iframe>
+      </main>
+   </body>
+</html>
