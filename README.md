@@ -1,2 +1,3 @@
-# personal_homepage
-my personal blog
+## personal_homepage
+- game devlogs
+- interesting game dev technique 
