@@ -1,3 +1,3 @@
 ## :orange_book: personal_homepage :orange_book:
-- game devlogs
-- interesting game dev technique 
+- my game devlogs
+- my excitement over cool programming languages, ides, techniques, and etc.
