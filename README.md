@@ -1,3 +1,3 @@
-## :heart_on_fire: personal_homepage :heart_on_fire: :video_game:
+## :orange_book: personal_homepage :orange_book:
 - game devlogs
 - interesting game dev technique 
