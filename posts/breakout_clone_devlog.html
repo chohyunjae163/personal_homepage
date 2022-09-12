@@ -23,15 +23,17 @@
             <h2>breakout clone with raylib</h2>
             <p><img src="images/breakout.png" alt="" width="250" height="250" /></p>
             <p>
-                this project was somewhat simpler than I thought.<br />
-                I assumed that it would be more difficult and <br /> 
-                complex to implement than the last project (computer_space_war project).<br />
+                this project took shorter than I thought.<br />
+                I expected to be more difficult and <br /> 
+                complicated than the last project (computer_space_war project).<br />
                 I created bricks, ball, and player's bar with simple shapes (circles and rectangles).<br />
+                I did not need to draw pixel art this time. However, I hit the wall at math.
                 The tricky part was to calculate the ball's angle when it hits a wall, the player's bar, or bricks.<br />
                 At first, I tried to implement the reflection vector,<br />
                 getting the normal of the hitted object, <br /> 
                 the projected vector from the ball's vector to that normal vector, <br />
-                and calculate the reflection vector from the projection vector.
+                and calculate the reflection vector from the vectors I have.<br />
+                I searched google and watched youtubes on how to get the reflection vector. < br />
             </p>
             <p> <img src="images/reflection.png" alt="" width="250" height="250" /> </p>
             <pre><code>
@@ -73,7 +75,7 @@ if(ballPos.x - ballRadius &lt;= leftWallBound || ballPos.x + ballRadius &gt;= ri
                 I learned projection and reflection vector for this project and how to implement them. <br />
                 It was not easy. I had hard time understanding the dot product in geometric interpretation.<br />
                 Frankly, I should study vectors and matrix ( linear algebra, therefore) <br /> 
-                more deeply in order to apply the math to my game development in the future <br /> 
+                more deeply in order to apply the math to my game development in the future. <br /> 
             </p>
          </main>
       </div>
