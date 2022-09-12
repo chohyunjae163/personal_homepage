@@ -34,20 +34,21 @@
                 and calculate the reflection vector from the projection vector.
             </p>
             <p> <img src="images/reflection.png" alt="" width="250" height="250" /> </p>
-            <pre><code>//assume the normal vector of all the bricks is (0,1)
-                //Vector2 brickNormal = { .x = 0.0f, .y = 1.0f};
-                // R = P +  2n(-P·n)
-                //get a reflect vector. a collided ball 
-                //dot product
-                //float dot = -ballDir.x * brickNormal.x + -ballDir.y * brickNormal.y;
-                //Vector2 proj = {.x = brickNormal.x * dot, .y = brickNormal.y * dot};
-                //Vector2 reflect = {.x = ballDir.x +  2 * proj.x , .y = ballDir.y + 2 * proj.y };
-                //float length = sqrt(reflect.x * reflect.x + reflect.y * reflect.y);
-                //if(length &gt; 0.0f)
-                //{
-                //    reflect.x /= length;
-                //    reflect.y /= length;
-                //}
+            <pre><code>
+//assume the normal vector of all the bricks is (0,1)
+//Vector2 brickNormal = { .x = 0.0f, .y = 1.0f};
+// R = P +  2n(-P·n)
+//get a reflect vector. a collided ball 
+//dot product
+//float dot = -ballDir.x * brickNormal.x + -ballDir.y * brickNormal.y;
+//Vector2 proj = {.x = brickNormal.x * dot, .y = brickNormal.y * dot};
+//Vector2 reflect = {.x = ballDir.x +  2 * proj.x , .y = ballDir.y + 2 * proj.y };
+//float length = sqrt(reflect.x * reflect.x + reflect.y * reflect.y);
+//if(length &gt; 0.0f)
+//{
+//    reflect.x /= length;
+//    reflect.y /= length;
+//}
             </code></pre>
             <p>
                 The ball nicely reflected the way I wanted.<br />
@@ -61,11 +62,12 @@
                 If the ball hits the walls on the side, its directoin needs change only in x-axis. <br />
                 No need to calculate dot product and square root of reflect vectors on every tick.<br />
             </p>
-            <pre><code>//check the side wall collisions
-            if(ballPos.x - ballRadius &lt;= leftWallBound || ballPos.x + ballRadius &gt;= rightWallBound)
-            {
-                ballDir.x *= -1.0f;
-            }
+            <pre><code>
+//check the side wall collisions
+if(ballPos.x - ballRadius &lt;= leftWallBound || ballPos.x + ballRadius &gt;= rightWallBound)
+{
+   ballDir.x *= -1.0f;
+}
             </code></pre>
             <p> 
                 I learned projection and reflection vector for this project and how to implement them.
