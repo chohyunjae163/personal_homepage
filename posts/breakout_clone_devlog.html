@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>my devlog</title>
+      <style>
+         a:link {
+            color: #F8F8F8;
+         }
+         a:visited {
+            color: #F8F8F8;
+         }
+      </style>
+      <base href="https://chohyunjae163.github.io/personal_homepage/">
+   </head>
+   <body style ="color: #F8F8F8; background-color: #1C1C1C">
+     <a href="/personal_homepage/index.html">Home</a>
+     <hr />
+      <div style="text-align: center;">
+         <main style="display: inline-block; text-align: left">
+            <h2>breakout clone with raylib</h2>
+            <p><img src="images/breakout.png" alt="" width="250" height="250" /></p>
+            <p>
+                this project was somewhat simpler than I thought.<br />
+                I assumed that it would be more difficult and <br /> 
+                complex to implement than the last project (computer_space_war project).<br />
+                I created bricks, ball, and player's bar with simple shapes (circles and rectangles).<br />
+                The tricky part was to calculate the ball's angle when it hits a wall, the player's bar, or bricks.<br />
+                At first, I tried to implement the reflection vector,<br />
+                getting the normal of the hitted object, <br /> 
+                the projected vector from the ball's vector to that normal vector, <br />
+                and calculate the reflection vector from the projection vector.
+            </p>
+            <p> <img src="images/reflection.png" alt="" width="250" height="250" /> </p>
+            <pre><code>//assume the normal vector of all the bricks is (0,1)
+                //Vector2 brickNormal = { .x = 0.0f, .y = 1.0f};
+                // R = P +  2n(-P·n)
+                //get a reflect vector. a collided ball 
+                //dot product
+                //float dot = -ballDir.x * brickNormal.x + -ballDir.y * brickNormal.y;
+                //Vector2 proj = {.x = brickNormal.x * dot, .y = brickNormal.y * dot};
+                //Vector2 reflect = {.x = ballDir.x +  2 * proj.x , .y = ballDir.y + 2 * proj.y };
+                //float length = sqrt(reflect.x * reflect.x + reflect.y * reflect.y);
+                //if(length &gt; 0.0f)
+                //{
+                //    reflect.x /= length;
+                //    reflect.y /= length;
+                //}
+            </code></pre>
+            <p>
+                The ball nicely reflected the way I wanted.<br />
+                However, i realized that there is a much simpler solution. <br />
+                Although calculating the reflection vector of the ball is clearly a generalized solution that can be used on any angle, <br />
+                my game had simple normal vectors for the colliding objects. <br />
+                Because the walls, the bricks, and the player's bar are not tilted, <br />
+                I can just flip x-axis or y-axis value depending on where the ball hit.  <br />
+                If the ball hit bricks or the player's bar, <br />
+                I can just multiply negative one to y-axis so that the ball just changes its direction on y-axis. <br />
+                If the ball hits the walls on the side, its directoin needs change only in x-axis. <br />
+                No need to calculate dot product and square root of reflect vectors on every tick.<br />
+            </p>
+            <pre><code>//check the side wall collisions
+            if(ballPos.x - ballRadius &lt;= leftWallBound || ballPos.x + ballRadius &gt;= rightWallBound)
+            {
+                ballDir.x *= -1.0f;
+            }
+            </code></pre>
+            <p> 
+                I learned projection and reflection vector for this project and how to implement them.
+                It was not easy, frankly. I had hard time understanding the dot product in geometric interpretation.
+            </p>
+         </main>
+      </div>
+   </body>
+</html>
