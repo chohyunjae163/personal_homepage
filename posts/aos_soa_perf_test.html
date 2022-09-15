@@ -11,7 +11,183 @@
      <hr />
       <div style="text-align: center;">
          <main style="display: inline-block; text-align: left">
-            
+            <h2>aos vs soa memory cache hit/miss test</h2>
+            <p>aos: an array of a struct
+            soa: a structt of an array</p>
+            <p>I wrote a small code to compare aos and soa cache hit/miss.</p>
+            <p>Used tools : valgrind and gcc compiler.<br />
+            <a href="https://valgrind.org/docs/manual/cg-manual.html">valgrind manual</a></p>
+            <p>
+<code>valgrind --tool=cachegrind ./bin/soa</code><br />
+<code>gcc ./src/aos.c -o ./bin/aos -O0</code>
+            </p>
+            <h3>an array of a struct C code</h3>
+            <pre><code>
+struct {
+	char	name[56];
+	int		health;
+	double	speed;
+	char	rank;
+	bool	dead;	
+}monsters[TEST_NUM];
+
+int main()
+{
+	clock_t start = clock();
+	for(int i = 0; i &lt; TEST_NUM;++i)
+	{
+		monsters[i].rank = 'C';
+	}
+	
+	clock_t end = clock();
+	
+	printf(&quot;-------aos--------\n&quot;);
+	printf(&quot;clocks taken : %lf \n&quot;, (double) end - start);
+	printf(&quot;------------------\n&quot;);
+
+	return 0;
+}
+            </code></pre>
+            <h3>aos valgrind result summary</h3>
+            <pre><code>
+struct {
+	char	name[6];
+	int		health;
+	double	speed;
+	char	rank;
+	bool	dead;	
+}monsters[TEST_NUM];
+-------aos--------
+clocks taken : 121823.000000
+------------------
+==4303==
+==4303== I   refs:      9,178,699
+==4303== I1  misses:        1,156
+==4303== LLi misses:        1,151
+==4303== I1  miss rate:      0.01%
+==4303== LLi miss rate:      0.01%
+==4303==
+==4303== D   refs:      4,055,953  (3,044,327 rd   + 1,011,626 wr)
+==4303== D1  misses:      503,267  (    2,618 rd   +   500,649 wr)
+==4303== LLd misses:      502,606  (    2,044 rd   +   500,562 wr)
+==4303== D1  miss rate:      12.4% (      0.1%     +      49.5%  )
+==4303== LLd miss rate:      12.4% (      0.1%     +      49.5%  )
+==4303==
+==4303== LL refs:         504,423  (    3,774 rd   +   500,649 wr)
+==4303== LL misses:       503,757  (    3,195 rd   +   500,562 wr)
+==4303== LL miss rate:        3.8% (      0.0%     +      49.5%  )
+
+
+struct {
+	char	name[56];
+	int		health;
+	double	speed;
+	char	rank;
+	bool	dead;	
+}monsters[TEST_NUM];
+-------aos--------
+clocks taken : 246688.000000
+------------------
+==602== I   refs:      12,178,711
+==602== I1  misses:         1,157
+==602== LLi misses:         1,150
+==602== I1  miss rate:       0.01%
+==602== LLi miss rate:       0.01%
+==602==
+==602== D   refs:       4,055,955  (3,044,329 rd   + 1,011,626 wr)
+==602== D1  misses:     1,003,261  (    2,612 rd   + 1,000,649 wr)
+==602== LLd misses:     1,002,603  (    2,044 rd   + 1,000,559 wr)
+==602== D1  miss rate:       24.7% (      0.1%     +      98.9%  )
+==602== LLd miss rate:       24.7% (      0.1%     +      98.9%  )
+==602==
+==602== LL refs:        1,004,418  (    3,769 rd   + 1,000,649 wr)
+==602== LL misses:      1,003,753  (    3,194 rd   + 1,000,559 wr)
+==602== LL miss rate:         6.2% (      0.0%     +      98.9%  )
+                </code></pre>
+                <h3>struct of arrays C code</h3>
+                <pre><code>
+struct {
+	char	name[TEST_NUM][56];
+	int		health[TEST_NUM];
+	double 	speed[TEST_NUM];
+	char	rank[TEST_NUM];
+	bool	dead[TEST_NUM];
+}monsters_data;
+
+int main()
+{
+	clock_t start = clock();
+	
+	for(int i = 0; i &lt; TEST_NUM ;++i)
+	{
+		monsters_data.rank[i] = 'C';
+	}
+	
+	clock_t end = clock();
+	
+	printf(&quot;-------soa--------\n&quot;);
+	printf(&quot;clocks taken : %lf \n&quot;, (double) end - start);
+	printf(&quot;------------------\n&quot;);
+	return 0;
+}
+                </code></pre>
+                <h3>soa valgrind result summary</h3>
+                <pre><code>
+struct {
+	char	name[TEST_NUM][6];
+	int		health[TEST_NUM];
+	double 	speed[TEST_NUM];
+	char	rank[TEST_NUM];
+	bool	dead[TEST_NUM];
+}monsters_data;
+-------soa--------
+clocks taken : 33307.000000
+------------------
+==8025==
+==8025== I   refs:      7,178,473
+==8025== I1  misses:        1,155
+==8025== LLi misses:        1,150
+==8025== I1  miss rate:      0.02%
+==8025== LLi miss rate:      0.02%
+==8025==
+==8025== D   refs:      4,055,856  (3,044,266 rd   + 1,011,590 wr)
+==8025== D1  misses:       18,885  (    2,611 rd   +    16,274 wr)
+==8025== LLd misses:       18,227  (    2,043 rd   +    16,184 wr)
+==8025== D1  miss rate:       0.5% (      0.1%     +       1.6%  )
+==8025== LLd miss rate:       0.4% (      0.1%     +       1.6%  )
+==8025==
+==8025== LL refs:          20,040  (    3,766 rd   +    16,274 wr)
+==8025== LL misses:        19,377  (    3,193 rd   +    16,184 wr)
+==8025== LL miss rate:        0.2% (      0.0%     +       1.6%  )
+
+
+struct {
+	char	name[TEST_NUM][56];
+	int		health[TEST_NUM];
+	double 	speed[TEST_NUM];
+	char	rank[TEST_NUM];
+	bool	dead[TEST_NUM];
+}monsters_data;
+-------soa--------
+clocks taken : 37410.000000
+------------------
+
+==606== I   refs:      7,178,443
+==606== I1  misses:        1,156
+==606== LLi misses:        1,151
+==606== I1  miss rate:      0.02%
+==606== LLi miss rate:      0.02%
+==606==
+==606== D   refs:      4,055,847  (3,044,260 rd   + 1,011,587 wr)
+==606== D1  misses:       18,885  (    2,611 rd   +    16,274 wr)
+==606== LLd misses:       18,227  (    2,043 rd   +    16,184 wr)
+==606== D1  miss rate:       0.5% (      0.1%     +       1.6%  )
+==606== LLd miss rate:       0.4% (      0.1%     +       1.6%  )
+==606==
+==606== LL refs:          20,041  (    3,767 rd   +    16,274 wr)
+==606== LL misses:        19,378  (    3,194 rd   +    16,184 wr)
+==606== LL miss rate:        0.2% (      0.0%     +       1.6%  )
+            </code></pre>
          </main>
       </div>
    </body>
