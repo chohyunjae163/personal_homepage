@@ -11,6 +11,38 @@
       <div style="text-align: center;">
          <main style="display: inline-block; text-align: left">
             <h2>change a filename. c console program</h2>
+            <pre><code>
+//hynujaecho
+// change file names console programs
+#include <stdio.h>
+int main(int argc, char** argv)
+{
+	//argv[0] program name
+	//argv[1] argument start
+	if( argc < 3)
+	{
+		printf("ERROR : arguments required. oldfilename newfilename\n");
+		return 1;
+	}
+	
+	char* old = argv[1];
+	FILE *file;
+	if(file = fopen(old,"r"))
+	{
+		printf("%s exists.\n",old);
+        fclose(file);
+    }
+    else
+    {
+        printf("%s doesn't exist.\n",old);
+		return 1;
+    }
+	
+	char* new = argv[2];
+	
+	return rename(old, new);
+}
+            </code></pre>
          </main>
       </div>
    </body>
