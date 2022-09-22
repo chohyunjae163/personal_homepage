@@ -12,20 +12,8 @@
          <main style="display: inline-block; text-align: left">
             <h2>change a filename. c console program</h2>
             <pre><code>
-//hynujaecho
-// change file names console programs
-#include <stdio.h>
-int main(int argc, char** argv)
+int change_filename(const char* old, const char* new)
 {
-	//argv[0] program name
-	//argv[1] argument start
-	if( argc < 3)
-	{
-		printf("ERROR : arguments required. oldfilename newfilename\n");
-		return 1;
-	}
-	
-	char* old = argv[1];
 	FILE *file;
 	if(file = fopen(old,"r"))
 	{
@@ -37,10 +25,29 @@ int main(int argc, char** argv)
         printf("%s doesn't exist.\n",old);
 		return 1;
     }
-	
-	char* new = argv[2];
-	
 	return rename(old, new);
+}
+
+int list_files()
+{
+	struct dirent* de;
+	
+	DIR* dr = opendir(".");
+	
+	if(dr == NULL)
+	{
+		printf("cannot open current directory.");
+		return 1;
+	}
+	
+	while((de = readdir(dr)) != NULL)
+	{
+		printf("%s\n", de->d_name);
+	}
+	
+	
+	closedir(dr);   
+	return 0;
 }
             </code></pre>
          </main>
