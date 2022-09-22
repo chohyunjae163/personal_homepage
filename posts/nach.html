@@ -7,7 +7,8 @@
       	<style>
 		.code 
 		{
-		  background-color : #666666
+		  background-color : #666666;
+		  border-radius: 25px;
 		}
 	</style>
    </head>
@@ -24,6 +25,27 @@
 		 </ul>
 		<div class="code">
          		<pre><code>
+int add_suffix(const char* suffix, const char* filename)
+{
+	char s[50];
+	
+	unsigned int len = 0;
+	unsigned int index = 0;
+	for(const char* c = suffix; c[index] != '\0'; ++index)
+	{
+		s[len] = c[index];
+		len++;
+	}
+	index = 0;
+	for(const char* c = filename; c[index] != '\0'; ++index)
+	{
+		s[len] = c[index];
+		len++;
+	}
+	s[len] = '\0';
+	
+	return rename(filename, s);	
+}			
 int change_filename(const char* old, const char* new)
 {
 	FILE *file;
