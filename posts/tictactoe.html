@@ -5,6 +5,11 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>my devlog</title>
       <style>
+      .code {
+	     background-color : #666666;
+	     border-radius: 25px;
+	     padding: 20px;
+	   }
       a:link {
         color: #F8F8F8; 
       }
@@ -19,6 +24,26 @@
       <div style="text-align: center;">
          <main style="display: inline-block; text-align: left">
          
+         <div class="code"><pre><code>
+enum class ETurn
+{
+	ENought,
+	ECross,
+}
+class TicTacToe 
+{
+	char  	cells[3][3];
+	ETurn	turn;
+	void 	Reset();
+public:
+	TicTacToe();
+	~TicTacToe();
+	void Init(char c);
+	void Draw();
+	void Step(int row, int column);
+	char Announce();
+}
+         </code></pre></div>
          </main>
       </div>
    </body>
