@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>my devlog</title>
+      <style>
+      .code {
+	     background-color : #666666;
+	     border-radius: 25px;
+	     padding: 20px;
+	   }
+      a:link {
+        color: #F8F8F8; 
+      }
+      a:visited {
+        color: #F8F8F8;
+      }
+    </style>
+   </head>
+   <body style ="color: #F8F8F8; background-color: #1C1C1C">
+     <a href="/personal_homepage/index.html">Home</a>
+     <hr />
+      <div style="text-align: center;">
+         <main style="display: inline-block; text-align: left">
+           
+// Type your code here, or load an example.
+void test(){
+    int a = 11;
+    int b = 20;
+    int* ptr = &b;
+    //assign a with the value of b
+    a = b;
+    //assign the value of c using pointer
+    int c = *ptr;
+
+    //assign the value of c to d.
+    int& d = c;
+    int g = d;
+    // heap allocation
+    int* e = new int[100];
+    int f = e[50];
+    return;
+}
+
+test():                               # @test()
+        push    rbp
+        mov     rbp, rsp
+        sub     rsp, 64
+        mov     dword ptr [rbp - 4], 11
+        mov     dword ptr [rbp - 8], 20
+        lea     rax, [rbp - 8]
+        mov     qword ptr [rbp - 16], rax
+        mov     eax, dword ptr [rbp - 8]
+        mov     dword ptr [rbp - 4], eax
+        mov     rax, qword ptr [rbp - 16]
+        mov     eax, dword ptr [rax]
+        mov     dword ptr [rbp - 20], eax
+        lea     rax, [rbp - 20]
+        mov     qword ptr [rbp - 32], rax
+        mov     rax, qword ptr [rbp - 32]
+        mov     eax, dword ptr [rax]
+        mov     dword ptr [rbp - 36], eax
+        mov     edi, 400
+        call    operator new[](unsigned long)@PLT
+        mov     qword ptr [rbp - 48], rax
+        mov     rax, qword ptr [rbp - 48]
+        mov     eax, dword ptr [rax + 200]
+        mov     dword ptr [rbp - 52], eax
+        add     rsp, 64
+        pop     rbp
+        ret
+         </main>
+      </div>
+   </body>
+</html>
