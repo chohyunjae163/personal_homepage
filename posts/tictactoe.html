@@ -32,13 +32,65 @@
 	     The trickiest part is to check a winner on each turn, the "Announce" method. <br>
 	     I am still trying to find a simpler way to check consecutive lines, vertical and horizontal. <br>
 	   </p>
-	   <p>tictactoe.h</p>		 
+	   <p>main.cpp</p>
+	   <div class="code"><pre><code>
+#include <iostream>
+#include "tictactoe.h"
+
+using namespace std;
+
+int main()
+{
+	TicTacToe Game;
+	
+	Game.Init('X');
+	cout << "======================" << endl;
+	cout << "==== " << "Game Starts!" << " ====" << endl;
+	cout << "======================" << endl;
+	cout << "\n\n\n" << endl;
+	while(true)
+	{
+		int r,c;
+		char turn = Game.GetTurn();
+		cout << "This is " << turn << "'s turn" << endl;
+		cout << "row: ";
+		cin >> r;
+		cout << "column: ";
+		cin >> c;
+		if(Game.Step(r,c))
+		{
+			Game.Draw();
+			char result = Game.Judge();
+			if(result == 'E')
+			{
+				cout << "draw!" << endl;
+			}
+			if(result == 'X' || result == 'O')
+			{
+				cout << "\n\n\n" << endl;
+				cout << "==================" << endl;
+				cout << "===== " << result << " Wins! " << "====" << endl;
+				cout << "==================" << endl;
+				break;
+			}	
+		}
+	}
+
+	return 0;
+}	   
+	   </code></pre></div>		 
+	   <p>tictactoe.h</p>
            <div class="code"><pre><code>
+// author: HYUN JAE CHO
+// date: 2022-10-11
+// program: tic-tac-toe
+
 enum class ETurn
 {
 	ENought,
 	ECross,
-}
+};
+
 class TicTacToe 
 {
 	char  	cells[3][3];
@@ -49,12 +101,11 @@ public:
 	~TicTacToe();
 	void Init(char c);
 	void Draw();
-	void Step(int row, int column);
-	char Announce();
-}
+	bool Step(int row, int column);
+	char Judge();
+	char GetTurn() const { return turn == ETurn::ENought ? 'O' : 'X'; };
+};
            </code></pre></div>
-	   <br>
-	   <br>
 	   <p>tictactoe.cpp</p>		 
   	   <div class="code"><pre><code>
 #include "tictactoe.h"
@@ -116,9 +167,21 @@ void TicTacToe::Draw()
 	cout << "***********" << endl;
 }
 
-void TicTacToe::Step(int row, int column)
+bool TicTacToe::Step(int row, int column)
 {
+	if(row > 2 || column > 2 || row < 0 || column < 0)
+	{
+		cout << "failed. row column out of bound" << endl;
+		return false;
+	}
+	if(cells[row][column] != 'E')
+	{
+		cout << "failed. cell not empty" << endl;
+		return false;
+	}
+	
 	cells[row][column] = turn == ETurn::ECross ? 'X' : 'O';
+	return true;
 }
 
 char TicTacToe::Judge()
