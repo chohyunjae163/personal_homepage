@@ -29,9 +29,31 @@
 	     What I like about this C++ course is that The professor encouraged students to learn and use modern C++ features. <br>
 	     Also, I have to create a game for the midterm! Always love doing mini projects, especially making games :) <br>
 	     For this assignment, I shuold make a Tic-Tac-Toe game using C++ and console. <br>
-	     The trickiest part is to check a winner on each turn, the "Announce" method. <br>
-	     I am still trying to find a simpler way to check consecutive lines, vertical and horizontal. <br>
+	     The trickiest part wass to check a winner on each turn, the "Announce" method. <br>
+	     The more I tried to devise a smart or short code to discover a consecutive line for a winner,<br>
+	     the more the code became unreadable. <br>
+	     I tried different ways, a mix of for-loops, division and modulo operators. <br>
+	     At the end, however, I decided to write it in the most straight way possible, just one if statement with 8 conditions.  <br>
+	     Oh, and because I am doing this project on a linux machine (much love to goormIDE!), I could not use Visual Studio. <br>
+	     Thus, I learned make command and how to write MakeFile for this assignment. <br>
+	     Learning how to utilize make command helped me understand the process of compiling and linking better.<br>
+	     Happy Coding! :) <br>
 	   </p>
+	   <p>MakeFile</p>
+	   <div class="code"><pre><code>
+main: main.o tictactoe.o
+	g++ -o ./bin/tictactoe main.o tictactoe.o 
+
+main.o: ./src/main.cpp ./src/tictactoe.h
+	g++ -c ./src/main.cpp ./src/tictactoe.h
+	
+tictactoe.o: ./src/tictactoe.cpp ./src/tictactoe.h
+	g++ -c ./src/tictactoe.cpp ./src/tictactoe.h
+
+
+clean:
+	rm *.o	   
+	   </code></pre></div>
 	   <p>main.cpp</p>
 	   <div class="code"><pre><code>
 #include <iostream>
