@@ -23,19 +23,17 @@
      <hr />
       <div style="text-align: center;">
          <main style="display: inline-block; text-align: left">
-	 <h2> C++ TicTacToe  </h2>
-         <p>
-	   I am taking a C++ course this semister and am learning a lot about C++. <br>
-	   What I like about this C++ course is that The professor encouraged students to learn and use modern C++ features. <br>
-	   Also, I have to create a game for the midterm! Always love doing mini projects, especially making games :) <br>
-	   For this assignment, I shuold make a Tic-Tac-Toe game using C++ and console. <br>
-	   The trickiest part is to check a winner on each turn, the "Announce" method. <br>
-	   I am still trying to find a simpler way to check consecutive lines, vertical and horizontal. <br>
-	 </p>
-         <div class="code"><pre><code>
-//tictactoe.h
-<br>
-<br>
+	   <h2> C++ TicTacToe  </h2>
+           <p>
+	     I am taking a C++ course this semister and am learning a lot about C++. <br>
+	     What I like about this C++ course is that The professor encouraged students to learn and use modern C++ features. <br>
+	     Also, I have to create a game for the midterm! Always love doing mini projects, especially making games :) <br>
+	     For this assignment, I shuold make a Tic-Tac-Toe game using C++ and console. <br>
+	     The trickiest part is to check a winner on each turn, the "Announce" method. <br>
+	     I am still trying to find a simpler way to check consecutive lines, vertical and horizontal. <br>
+	   </p>
+	   <p>tictactoe.h</p>		 
+           <div class="code"><pre><code>
 enum class ETurn
 {
 	ENought,
@@ -54,7 +52,114 @@ public:
 	void Step(int row, int column);
 	char Announce();
 }
-         </code></pre></div>
+           </code></pre></div>
+	   <br>
+	   <br>
+	   <p>tictactoe.cpp</p>		 
+  	   <div class="code"><pre><code>
+#include "tictactoe.h"
+#include <iostream>
+
+using namespace std;
+
+TicTacToe::TicTacToe()
+{
+	cout << "create TicTacToe game" << endl;
+}
+
+TicTacToe::~TicTacToe()
+{
+	cout << " exit TicTacToe game" << endl;
+}
+
+void TicTacToe::Reset()
+{
+	for(int i = 0 ; i < 3;++i)
+	{
+		for(int j = 0; j < 3;++j)
+		{
+			cells[i][j] = 'E';
+		}
+	}
+}
+
+void TicTacToe::Init(char c)
+{
+	Reset();
+	turn = ETurn::ECross;
+	if(c == 'X' || c == 'x')
+	{
+		turn = ETurn::ECross;
+	}
+	else if(c =='O' || c == 'o')
+	{
+		turn = ETurn::ENought;
+	}
+	
+	string s = turn == ETurn::ECross ? "X" : "O";
+	cout << s << " is the first to go" << endl;
+}
+
+void TicTacToe::Draw()
+{
+	cout << "***********" << "\n" << endl;
+	for(int i = 0 ; i < 3;++i)
+	{
+		cout << "   ";
+		for(int j = 0; j < 3;++j)
+		{
+			cout << cells[i][j];
+			cout << " ";
+		}
+		cout << "\n" << endl;
+	}
+	cout << "***********" << endl;
+}
+
+void TicTacToe::Step(int row, int column)
+{
+	cells[row][column] = turn == ETurn::ECross ? 'X' : 'O';
+}
+
+char TicTacToe::Judge()
+{
+	char latest = turn == ETurn::ECross ? 'X' : 'O';
+	int consecutive = latest * 3;
+	
+	if(
+		(cells[0][0] + cells[0][1] + cells[0][2]) == consecutive || //first row
+	    (cells[1][0] + cells[1][1] + cells[1][2]) == consecutive || //second row
+	   (cells[2][0] + cells[2][1] + cells[2][2]) == consecutive || //third row
+	   (cells[0][0] + cells[1][0] + cells[2][0]) == consecutive || //first column
+	   (cells[0][1] + cells[1][1] + cells[2][1]) == consecutive || //second column
+	   (cells[0][2] + cells[1][2] + cells[2][2]) == consecutive || //third column
+	   (cells[0][0] + cells[1][1] + cells[2][2]) == consecutive || //left-right diagonal
+	   (cells[0][2] + cells[1][1] + cells[2][0]) == consecutive //right-let diagonal
+	  )
+	{
+		return latest;
+	}
+	
+	//check draw situation
+	int EmptyCell = 0;
+	for(int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			if( cells[i][j]	== 'E')
+			{
+				EmptyCell += 1;
+			}
+		}
+	}
+	if(EmptyCell == 0) //no empty cell. a draw case
+	{
+		return 'D';
+	}
+	turn = turn == ETurn::ECross ? ETurn::ENought : ETurn::ECross;
+	return '\0';
+}
+	   </code></pre></div>
          </main>
       </div>
    </body>
