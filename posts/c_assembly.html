@@ -23,20 +23,20 @@
      <hr />
       <div style="text-align: center;">
          <main style="display: inline-block; text-align: left">
-		 <h2> c and assembly exploration! </h2>
+		 <h2> C language and assembly exploration! </h2>
 		 <div class="code"><pre><code>
 int main()
 {	
-    <span style="background-color:red">int a = 13; </span>
-    int b = 15;
-    a = b;
+    <span style="background-color:red">int a = 13;</span>
+    <span style="background-color:green">int b = 15;</span>
+    <span style="background-color:blue">a = b;</span>
 
     //difference between a pointer and a reference
-    int* pointer = &a;
-    int& ref = a;
+    <span style="background-color:yellow">int* pointer = &a;</span>
+    <span style="background-color:purple">int& ref = a;</span>
 
     //what happens when i initialize an int variable with a dereferenced potiner?
-    int c = *pointer;
+    <span style="background-color:orange">int c = *pointer;</span>
 
     return 0;
 }
@@ -45,17 +45,17 @@ main:                                   # @main
         push    rbp
         mov     rbp, rsp
         mov     dword ptr [rbp - 4], 0
-        mov     dword ptr [rbp - 8], 13
-        mov     dword ptr [rbp - 12], 15
-        mov     eax, dword ptr [rbp - 12]
-        mov     dword ptr [rbp - 8], eax
-        lea     rax, [rbp - 8]
-        mov     qword ptr [rbp - 24], rax
-        lea     rax, [rbp - 8]
-        mov     qword ptr [rbp - 32], rax
-        mov     rax, qword ptr [rbp - 24]
-        mov     eax, dword ptr [rax]
-        mov     dword ptr [rbp - 36], eax
+        <span style="background-color:red">mov     dword ptr [rbp - 8], 13</span>
+        <span style="background-color:green">mov     dword ptr [rbp - 12], 15</span>
+        <span style="background-color:blue">mov     eax, dword ptr [rbp - 12]</span>
+        <span style="background-color:blue">mov     dword ptr [rbp - 8], eax</span>
+        <span style="background-color:yellow">lea     rax, [rbp - 8]</span>
+        <span style="background-color:yellow">mov     qword ptr [rbp - 24], rax</span>
+        <span style="background-color:purple">lea     rax, [rbp - 8]</span>
+        <span style="background-color:purple">mov     qword ptr [rbp - 32], rax</span>
+        <span style="background-color:orange">mov     rax, qword ptr [rbp - 24]</span>
+        <span style="background-color:orange">mov     eax, dword ptr [rax]</span>
+        <span style="background-color:orange">mov     dword ptr [rbp - 36], eax</span>
         xor     eax, eax
         pop     rbp
         ret
