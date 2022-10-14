@@ -23,51 +23,39 @@
      <hr />
       <div style="text-align: center;">
          <main style="display: inline-block; text-align: left">
-           
-// Type your code here, or load an example.
-void test(){
-    int a = 11;
-    int b = 20;
-    int* ptr = &b;
-    //assign a with the value of b
+		 <h2> c and assembly exploration! </h2>
+int main()
+{	
+    <span style="background-color:red">int a = 13; </span>
+    int b = 15;
     a = b;
-    //assign the value of c using pointer
-    int c = *ptr;
 
-    //assign the value of c to d.
-    int& d = c;
-    int g = d;
-    // heap allocation
-    int* e = new int[100];
-    int f = e[50];
-    return;
+    //difference between a pointer and a reference
+    int* pointer = &a;
+    int& ref = a;
+
+    //what happens when i initialize an int variable with a dereferenced potiner?
+    int c = *pointer;
+
+    return 0;
 }
 
-test():                               # @test()
+main:                                   # @main
         push    rbp
         mov     rbp, rsp
-        sub     rsp, 64
-        mov     dword ptr [rbp - 4], 11
-        mov     dword ptr [rbp - 8], 20
+        mov     dword ptr [rbp - 4], 0
+        mov     dword ptr [rbp - 8], 13
+        mov     dword ptr [rbp - 12], 15
+        mov     eax, dword ptr [rbp - 12]
+        mov     dword ptr [rbp - 8], eax
         lea     rax, [rbp - 8]
-        mov     qword ptr [rbp - 16], rax
-        mov     eax, dword ptr [rbp - 8]
-        mov     dword ptr [rbp - 4], eax
-        mov     rax, qword ptr [rbp - 16]
-        mov     eax, dword ptr [rax]
-        mov     dword ptr [rbp - 20], eax
-        lea     rax, [rbp - 20]
+        mov     qword ptr [rbp - 24], rax
+        lea     rax, [rbp - 8]
         mov     qword ptr [rbp - 32], rax
-        mov     rax, qword ptr [rbp - 32]
+        mov     rax, qword ptr [rbp - 24]
         mov     eax, dword ptr [rax]
         mov     dword ptr [rbp - 36], eax
-        mov     edi, 400
-        call    operator new[](unsigned long)@PLT
-        mov     qword ptr [rbp - 48], rax
-        mov     rax, qword ptr [rbp - 48]
-        mov     eax, dword ptr [rax + 200]
-        mov     dword ptr [rbp - 52], eax
-        add     rsp, 64
+        xor     eax, eax
         pop     rbp
         ret
          </main>
