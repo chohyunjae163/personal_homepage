@@ -32,7 +32,7 @@ int main()
     <span style="background-color:blue">a = b;</span>
 
     //difference between a pointer and a reference
-    <span style="background-color:yellow">int* pointer = &a;</span>
+    <span style="background-color:Violet">int* pointer = &a;</span>
     <span style="background-color:purple">int& ref = a;</span>
 
     //what happens when i initialize an int variable with a dereferenced potiner?
@@ -49,8 +49,8 @@ main:                                   # @main
         <span style="background-color:green">mov     dword ptr [rbp - 12], 15</span>
         <span style="background-color:blue">mov     eax, dword ptr [rbp - 12]</span>
         <span style="background-color:blue">mov     dword ptr [rbp - 8], eax</span>
-        <span style="background-color:yellow">lea     rax, [rbp - 8]</span>
-        <span style="background-color:yellow">mov     qword ptr [rbp - 24], rax</span>
+        <span style="background-color:Violet">lea     rax, [rbp - 8]</span>
+        <span style="background-color:Violet">mov     qword ptr [rbp - 24], rax</span>
         <span style="background-color:purple">lea     rax, [rbp - 8]</span>
         <span style="background-color:purple">mov     qword ptr [rbp - 32], rax</span>
         <span style="background-color:orange">mov     rax, qword ptr [rbp - 24]</span>
