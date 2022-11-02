@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>my devlog</title>
+      <style>
+      .code {
+	     background-color : #666666;
+	     border-radius: 25px;
+	     padding: 20px;
+	   }
+      a:link {
+        color: #F8F8F8; 
+      }
+      a:visited {
+        color: #F8F8F8;
+      }
+    </style>
+   </head>
+   <body style ="color: #F8F8F8; background-color: #1C1C1C">
+     <a href="/personal_homepage/index.html">Home</a>
+     <hr />
+      <div style="text-align: center;">
+         <main style="display: inline-block; text-align: left">
+           <h3>pointers of pointers of pointers</h3>
+           <p>
+             <a href="https://www.hackerrank.com/challenges/querying-the-document/problem"> HackerRank C Challenge : Querying the Document</a>
+             I tried solving a problem in HackerRank and the problem was rather challenging.<br>
+             I had to deal with a lot of pointers and it was my first time handling quadruple pointers!<br>
+             Banging my head against the wall for three days, my code finally passed all the test cases. <br>
+             Always exhilarating to see my code works flawlessly!<br>
+             This problem helped me understand how memory works under the hood.<br> 
+             It really challenged me to handle every byte carefully in order to output a desired result.
+           <div class="code"><pre><code>
+char**** get_document(const char* text) {
+
+    int w = 0,s = 0,p = 0,c = 0;// word ,sentence,paragraph,character
+    
+    int index = 0;
+    char**** document = (char****)calloc(1,sizeof(char*));
+    char*** paragraph = (char***)calloc(1,sizeof(char*));
+    char** sentence = (char**)calloc(1,sizeof(char*));
+    *document = paragraph;
+    *paragraph = sentence;
+    int buffer_size = 20;
+    char buffer[20] = {0};
+    while(text[index] != '\0')
+    {
+        switch(text[index])
+        {
+            case '\n':
+            {
+                ++p;
+                document = (char****)realloc(document,sizeof(char*) * (p + 1));
+                document[p] =  (char***)malloc(sizeof(char*));
+                c = 0;
+                s = 0;
+                w = 0;
+            }
+            break;
+            case ' ':
+            {
+                char* new_word = (char*)malloc(c + 1);
+                memset(new_word,0,c + 1);
+                memcpy(new_word,buffer,c);
+                document[p][s] = (char**)realloc(document[p][s],sizeof(char*) * (w + 1));
+                document[p][s][w] = new_word;   
+                ++w;
+                c = 0;
+                memset(buffer,0,buffer_size);
+            }
+            
+            break;
+            case '.':
+            {
+                char* new_word = (char*)malloc(c + 1);
+                memset(new_word,0,c + 1);
+                memcpy(new_word,buffer,c);
+                document[p][s]  = (char**)realloc(document[p][s],sizeof(char*) * (w + 1));
+                document[p][s][w] = new_word; 
+                if(text[index + 1] != '\n' && text[index + 1] != '\0')
+                {
+                    ++s;
+                    char** new_sentence = (char**)malloc(sizeof(char*));
+                    document[p] = (char***)realloc(document[p],sizeof(char*) * (s + 1));
+                    document[p][s] = new_sentence;
+                }
+                c = 0;
+                w = 0;
+                memset(buffer,0,buffer_size);
+            }
+            break;
+            default:
+            buffer[c] = text[index];
+            ++c;
+            break;
+        }
+        index++;
+    }
+    
+    
+    return document;
+}           
+           </code></pre></div>
+           </p>
+         </main>
+      </div>
+   </body>
+</html>.
