@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>my devlog</title>
+      <style>
+      .code {
+	     background-color : #666666;
+	     border-radius: 25px;
+	     padding: 20px;
+	   }
+      a:link {
+        color: #F8F8F8; 
+      }
+      a:visited {
+        color: #F8F8F8;
+      }
+    </style>
+   </head>
+   <body style ="color: #F8F8F8; background-color: #1C1C1C">
+     <a href="/personal_homepage/index.html">Home</a>
+     <hr />
+      <div style="text-align: center;">
+         <main style="display: inline-block; text-align: left">
+           <h3>Sherlock and Anagrams!</h3>
+           <a href="https://www.hackerrank.com/challenges/sherlock-and-anagrams/problem"> Counting Sort</a><br>
+           <p>
+            This algorithm problem is about finding all the substring anagrams of a given string.<br>
+            Everytime I encounter this kind of problem, finding some stuff in an array or a string,<br>
+            I tried to avoid nested loops as much as possible because it is difficult to write and read them,<br>
+            not to mention a performance issue.<br> 
+            Maybe hashing can help me stay way from complicated multiple loops? <br>
+            My original plan was to calculate a unique value for each substring. Then I would just need to loop once <br>
+            for calcuation of the unique value for each substring and use those unique values as indices of an array. <br>
+            Then I will need another loop (but not nested) for examining the elements, <br>
+            checking if a value of an element is more than one (which means it has an anagram).<br>
+            Adding all those numbers of the elements should give me the total number of the substring anagrams of a given input.<br>
+            My plan seemed rock solid.<br>
+            However, it was not easy to calculate a unique value for a string. <br>
+            Googling about how people handle anagrams, I came across an interesting method using prime numbers! <br>
+            <a href="https://scipython.com/blog/using-prime-numbers-to-determine-if-two-words-are-anagrams/"> prime-numbers-to-determine-if-two-words-are-anagrams</a><br>
+            One big problem was that the result of the multiplications of the prime numbers could get ridiculously large. <br>
+            If an input string is consisted of one hundred letters and they are all 'a's, it is still two to power of 100! <br>
+            So at the end, I give up using hasing-like method in checking anagrams. <br> Instead, I decided to sort two strings
+            and check whether they are equal. <br>
+            To alphabetize a string, I used a sorting algorithm called counting sort.<br>
+            <a href="https://www.interviewcake.com/concept/java/counting-sort"> Counting Sort</a><br>
+            Anyhow, surprisingly, my deep nested loops passed all the test cases lol. <br>
+            <a href="https://github.com/chohyunjae163/CProgrammingAModernApproach/blob/main/sherlockanagrams.c"> My Code </a>
+           </p>
+	        <div class="code"><pre><code>
+	        - Code goes here -
+	        </code></pre></div>
+         </main>
+      </div>
+   </body>
+</html>
