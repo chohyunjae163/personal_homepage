@@ -27,7 +27,7 @@
            <a href="https://www.hackerrank.com/challenges/sherlock-and-anagrams/problem"> Counting Sort</a><br>
            <p>
             This algorithm problem is about finding all the substring anagrams of a given string.<br>
-            Everytime I encounter this kind of problem, finding some stuff in an array or a string,<br>
+            Everytime I encounter this kind of problem, matching substrings  in an array or in a string,<br>
             I tried to avoid nested loops as much as possible because it is difficult to write and read them,<br>
             not to mention a performance issue.<br> 
             Maybe hashing can help me stay way from complicated multiple loops? <br>
@@ -40,6 +40,12 @@
             However, it was not easy to calculate a unique value for a string. <br>
             Googling about how people handle anagrams, I came across an interesting method using prime numbers! <br>
             <a href="https://scipython.com/blog/using-prime-numbers-to-determine-if-two-words-are-anagrams/"> prime-numbers-to-determine-if-two-words-are-anagrams</a><br>
+	    <a href="https://en.wikipedia.org/wiki/Fundamental_theorem_of_arithmetic"> Fundamental theorem of arithmetic </a><br>
+ 	    This fundamental theorem of arithmetic seemd promising! <br>
+	    It states that "every integer greater than 1 can be represented uniquely as a product of prime numbers"<br>
+	    I focused on the word unique. From what I understood, I can assign each letter a different prime number and <br>
+	    multiply the letters of a substring would give me a unique value!<br> 
+	    This seemd perfect! <br>
             One big problem was that the result of the multiplications of the prime numbers could get ridiculously large. <br>
             If an input string is consisted of one hundred letters and they are all 'a's, it is still two to power of 100! <br>
             So at the end, I give up using hasing-like method in checking anagrams. <br> Instead, I decided to sort two strings
