@@ -52,12 +52,42 @@
 	    This seemd perfect! <br>
             One big problem was that the result of the multiplications of the prime numbers could get ridiculously large. <br>
             If an input string is consisted of one hundred letters and they are all 'a's, it is still two to power of 100! <br>
-            So at the end, I give up using hasing-like method in checking anagrams. <br> Instead, I decided to sort two strings
+            So at the end, I give up using hasing-like method in checking anagrams. <br> Instead, I decided to just sort and compare two strings
             and check whether they are equal. <br>
             To alphabetize a string, I used a sorting algorithm called counting sort.<br>
             <a href="https://www.interviewcake.com/concept/java/counting-sort"> Counting Sort</a><br>
             Anyhow, surprisingly, my deep nested loops passed all the test cases lol. <br>
-            <a href="https://github.com/chohyunjae163/CProgrammingAModernApproach/blob/main/sherlockanagrams.c"> My Code </a>
+            <a href="https://github.com/chohyunjae163/CProgrammingAModernApproach/blob/main/sherlockanagrams.c"> My Full Solution </a>
+	    <div class="code"><pre><code>
+int sherlockAndAnagrams(char* s) {
+    int s_len = 0;
+    while(s[s_len] != '\0')
+    {
+        s_len = s_len + 1;
+    }
+
+    int anagram_count = 0;
+    for(int i = 0; i < s_len - 1; ++i)
+    {
+        int sub_s_len = i + 1;
+        for(int j = 0; j < s_len;++j)
+        {
+            char sub_s1[sub_s_len + 1];
+            memset(sub_s1,0,sub_s_len + 1);
+            memcpy(sub_s1,s + j,sub_s_len);
+            for(int k = j + 1; k < s_len - i;++k)
+            {
+                char sub_s2[sub_s_len + 1];
+                memset(sub_s2,0,sub_s_len + 1);
+                memcpy(sub_s2,s + k,sub_s_len);
+                anagram_count += isAnagram(sub_s1, sub_s2);
+            }
+            memset(sub_s1,0,sub_s_len);
+        }
+    }
+    return anagram_count;
+}
+	        </code></pre></div>
            </p>
          </main>
       </div>
