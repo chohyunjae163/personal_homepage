@@ -26,18 +26,18 @@
            <h3>Sherlock and Anagrams!</h3>
            <a href="https://www.hackerrank.com/challenges/sherlock-and-anagrams/problem"> Counting Sort</a><br>
            <p>
-            	This algorithm problem is about finding all the substring anagrams of a given string.<br>
+            &nbsp; &nbsp; This algorithm problem is about finding all the substring anagrams of a given string.<br>
             Everytime I encounter this kind of problem, matching substrings  in an array or in a string,<br>
             I tried to avoid nested loops as much as possible because it is difficult to write and read them,<br>
             not to mention a performance issue.<br> 
             Maybe hashing can help me stay way from complicated multiple loops? <br>
-            	My original plan was to calculate a unique value for each substring. Then I would just need to loop once <br>
+            &nbsp; &nbsp; My original plan was to calculate a unique value for each substring. Then I would just need to loop once <br>
             for calcuation of the unique value for each substring and use those unique values as indices of an array. <br>
             Then I will need another loop (but not nested) for examining the elements, <br>
             checking if a value of an element is more than one (which means it has an anagram).<br>
             Adding all those numbers of the elements should give me the total number of the substring anagrams of a given input.<br>
             My plan seemed rock solid.<br>
-            	However, it was not easy to calculate a unique value for a string. <br>
+            &nbsp; &nbsp; However, it was not easy to calculate a unique value for a string. <br>
             Googling about how people handle anagrams, I came across an interesting method using prime numbers! <br>
 	    <br>
 		 <ol>
@@ -50,7 +50,7 @@
 	    I focused on the word unique. From what I understood, I can assign each letter a different prime number and <br>
 	    multiply the letters of a substring would give me a unique value!<br> 
 	    This seemd perfect! <br>
-            	One big problem was that the result of the multiplications of the prime numbers could get ridiculously large. <br>
+            &nbsp; &nbsp; One big problem was that the result of the multiplications of the prime numbers could get ridiculously large. <br>
             If an input string is consisted of one hundred letters and they are all 'a's, it is still two to power of 100! <br>
             So at the end, I give up using hasing-like method in checking anagrams. <br> Instead, I decided to just sort and compare two strings
             and check whether they are equal. <br>
