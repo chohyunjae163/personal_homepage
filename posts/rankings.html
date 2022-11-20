@@ -55,7 +55,7 @@ void print_ordinal_ranking(int* scores, char names[][NAME_LEN])
 			int j = 1;
 			char curr[NAME_LEN];
 			memcpy(curr,names[i],NAME_LEN);
-			int swap_count = 0;
+			int swap_count = 0; //how many swap occurs
 			//if the scores are the same, order them by alphabets.
 			while (i - j > -1 && scores[i - j] == prev_score)
 			{
@@ -64,17 +64,18 @@ void print_ordinal_ranking(int* scores, char names[][NAME_LEN])
 				while(*prev != '\0' || curr[curr_index] != '\0')
 				{
 					int diff = *prev - curr[curr_index];
-          ++prev;
+          				++prev;
 					++curr_index;
+					//if previous string is "bigger", swap. so "smaller" word comes before the bigger ones.
 					if(diff > 0)
 					{
 						//swap
 						char temp[NAME_LEN];
 						memcpy(temp,names[i-j],NAME_LEN);
-            memcpy(names[i-j],names[i - swap_count],NAME_LEN);
-            memcpy(names[i - swap_count],temp,NAME_LEN);
-            swap_count++;
-            break;
+            					memcpy(names[i-j],names[i - swap_count],NAME_LEN);
+            					memcpy(names[i - swap_count],temp,NAME_LEN);
+            					swap_count++;
+            					break;
 					}
 					else if (diff < 0)
 					{
@@ -82,16 +83,16 @@ void print_ordinal_ranking(int* scores, char names[][NAME_LEN])
 					}
 
 				}
-				//a case where all the alphabets are the same, but one has more letters
+				//a case where all the alphabets are the same, but the previous one has more letters, swap.
 				if(*curr == '\0' && *prev != '\0')
 				{
-          //swap
+          				//swap
 					char temp[NAME_LEN];
 					memcpy(temp,names[i-j],NAME_LEN);
-          memcpy(names[i-j],names[i - swap_count],NAME_LEN);
-          memcpy(names[i - swap_count],temp,NAME_LEN);
-          swap_count++;
-          break;
+          				memcpy(names[i-j],names[i - swap_count],NAME_LEN);
+          				memcpy(names[i - swap_count],temp,NAME_LEN);
+          				swap_count++;
+          				break;
 				}
 				++j;
 			}
