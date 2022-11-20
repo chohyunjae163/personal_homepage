@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my devlog</title>
+    <style>
+      .code {
+	     background-color : #666666;
+	     border-radius: 25px;
+	     padding: 20px;
+	  }
+      a:link {
+        color: #F8F8F8; 
+      }
+      a:visited {
+        color: #F8F8F8;
+      }
+    </style>
+   </head>
+   <body style ="color: #F8F8F8; background-color: #1C1C1C">
+     <a href="/personal_homepage/index.html">Home</a>
+      <div style="text-align: center;">
+      	<main style="display: inline-block; text-align: left">          
+          <h2> A variety of ranking methods </h2>
+          <p>
+            I enjoy solving puzzles and tasks in Rosetta Code these days. <br>
+            <center><a href="https://rosettacode.org/wiki/Rosetta_Code">Rosetta Code</a></center>
+            It is not like other algorithm-solving websites such as Hackerrank or LeetCode.<br>
+            Although it hardly provides test cases or a complete solution to a problem, <br>
+            its "tasks" are more intriguing compared to others.  They make me to think <br>
+            creatively and find fresh solutions. I learn not only how to solve specific algorithm problems, but also <br>
+            get to have a chance to learn new knowledge such as a variety of ranking methods.<br>
+            <center><a href="https://rosettacode.org/wiki/Ranking_methods"> Ranking Methods </a></center><br>
+            By implementing ranking methods in C, I was impressed to know that there are several methods to calculate rankings.<br>
+            <center><a href="https://github.com/chohyunjae163/CProgrammingAModernApproach/blob/main/rankings.c"> Ranking Methods </a></center><br>
+            I often saw standard method and modified method on TV or Youtube.<br>
+            Fractional ranking method was the most interesting one. I never saw a fractional ranking number in my entire life<br>
+            The hardest part of the implementation was the ordinal ranking method because <br>
+            I had to implement a feature for comparing two strings to figure out which is smaller or bigger .<br>
+            At the end, I implemented the method, but the code was really messy, and <br>
+            it literally confused me even though I wrote it.<br>       
+          </p>
+	  <div class="code"><pre><code>
+void print_ordinal_ranking(int* scores, char names[][NAME_LEN])
+{
+	FUNCTION_CALLED();
+	int prev_score = scores[0];
+	int rankings[COMPETITOR_NUM] = { 1, 0 };
+	for(int i = 1; i < COMPETITOR_NUM;++i)
+	{
+	  int current_score = scores[i];
+		if(prev_score == current_score)
+		{
+			int j = 1;
+			char curr[NAME_LEN];
+			memcpy(curr,names[i],NAME_LEN);
+			int swap_count = 0;
+			//if the scores are the same, order them by alphabets.
+			while (i - j > -1 && scores[i - j] == prev_score)
+			{
+				char* prev = names[i-j];
+				int curr_index = 0;
+				while(*prev != '\0' || curr[curr_index] != '\0')
+				{
+					int diff = *prev - curr[curr_index];
+          ++prev;
+					++curr_index;
+					if(diff > 0)
+					{
+						//swap
+						char temp[NAME_LEN];
+						memcpy(temp,names[i-j],NAME_LEN);
+            memcpy(names[i-j],names[i - swap_count],NAME_LEN);
+            memcpy(names[i - swap_count],temp,NAME_LEN);
+            swap_count++;
+            break;
+					}
+					else if (diff < 0)
+					{
+						break;
+					}
+
+				}
+				//a case where all the alphabets are the same, but one has more letters
+				if(*curr == '\0' && *prev != '\0')
+				{
+          //swap
+					char temp[NAME_LEN];
+					memcpy(temp,names[i-j],NAME_LEN);
+          memcpy(names[i-j],names[i - swap_count],NAME_LEN);
+          memcpy(names[i - swap_count],temp,NAME_LEN);
+          swap_count++;
+          break;
+				}
+				++j;
+			}
+		}
+
+		prev_score = current_score;
+		rankings[i] = i + 1;
+	}
+	print_rank(scores,names,rankings);
+	FUNCTION_RETURNED();
+}
+	  </code></pre></div>
+    	</main>
+  	</div>
+	</body>
+</html>
