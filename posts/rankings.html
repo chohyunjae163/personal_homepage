@@ -56,7 +56,7 @@ void print_ordinal_ranking(int* scores, char names[][NAME_LEN])
 			char curr[NAME_LEN];
 			memcpy(curr,names[i],NAME_LEN);
 			int swap_count = 0; //how many swap occurs
-			//if the scores are the same, order them by alphabets.
+			//if the scores are the same, order them alphabetically.
 			while (i - j > -1 && scores[i - j] == prev_score)
 			{
 				char* prev = names[i-j];
