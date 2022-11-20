@@ -49,7 +49,7 @@ void print_ordinal_ranking(int* scores, char names[][NAME_LEN])
 	int rankings[COMPETITOR_NUM] = { 1, 0 };
 	for(int i = 1; i < COMPETITOR_NUM;++i)
 	{
-	  int current_score = scores[i];
+	 	int current_score = scores[i];
 		if(prev_score == current_score)
 		{
 			int j = 1;
