@@ -26,13 +26,13 @@
           Another Rosetta code task!<br>
           The task was simple. I have to visualize a data structure called tree.<br>
           It seemed simple. However, visualizing a tree on terminal was much harder than I thought. <br>
-					I could not just print a data and '\n' because I have to check "sibling nodes" and print them out before going to the next line. <br>
-					Also, As those sibling nodes have children, I have to print all the previous sibling edges <br>
-					in order to avoid nodes overlapping each other.<br>
-					a child from each sibling must have their own distinct line.<br>
-					This task took me more time and effort than I thought, and this is the fun part of programming! <br>
-					Happy Coding!<br>
-					
+	  I could not just print a data and '\n' because I have to check "sibling nodes" and print them out before going to the next line. <br>
+	  Also, As those sibling nodes have children, I have to print all the previous sibling edges <br>
+	  in order to avoid nodes overlapping each other.<br>
+	  a child from each sibling must have their own distinct line.<br>
+	  This task took me more time and effort than I thought, and this is the fun part of programming! <br>
+	  Happy Coding!<br>
+	  <div class="code"><pre><code>
 a  // this is root
 |
 b-c-z // siblings are on the same line
@@ -58,7 +58,6 @@ d-h-r-w-k-m-n
   |   q
   |
   g
-	  <div class="code"><pre><code>
 void draw_tree(struct Node* n, int child_count[], int level)
 {
     //print node's data first.
