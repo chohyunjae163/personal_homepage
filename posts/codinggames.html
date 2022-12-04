@@ -23,8 +23,107 @@
       <div style="text-align: center;">
       	<main style="display: inline-block; text-align: left">          
           <h2>Coding Games!</h2>
+		As well as Rosetta Code, I also love a coding challenge website called CodingGames. <br>
+		<a href="https://www.codingame.com/start"> CodingGames </a> <br>
+		This website provides a lot of interesting puzzles and many of them are related to video game problems.  <br>
+		For example, a challenger has to figure out how to accurately shot down invading enemy spaceships with missiles. <br>
+		A challenger has to utilize vector math which is very crucial in gameplay programming. <br>
+		I especially love this because this platform provides all the test cases, and <br>
+		solving its puzzles is like creating a part of games. <br>
+		Moreover, each puzzle has tags, so if I want to solve questions related to graph thoery, I can just click the graph tag <br>
+		and browse all the puzzles about grahps, bfs, and dfs. <br>
+		my long-term goal is to complete at least most of classic puzzles in practice category. <br>
+		I hope this practice will help me in materializing my game ideas in the future. <br>
+		I solved this question this week <a href="https://www.codingame.com/ide/puzzle/unary">unary</a> <br>
+		Even though it is not about implementing a feature in gameplay, solving it was really and fun, and <br> 
+		I learned about the importance of the order of coditional statements. <br>
 	  <div class="code"><pre><code>
-	    - Code goes here -
+	    for(count = 1;  i < output_len && output[++i] == n; ++count);
+	  </code></pre></div>
+	  <br>
+	  <div class="code"><pre><code>
+	    for(count = 1;  output[++i] == n && i < output_len; ++count);
+	  </code></pre></div>
+		my solution with the first code failed producing the correct answer for the last case, <br>
+		but the second code passed the case. It was not clear at first why the first code was a failure. <br>
+		The first code was a fail because <br> incrementing i after "i < output_len " <br>
+		made 'i' go over tha last index and the resulting behaviour was undefined. <br>
+		Trying to pipoint the problem with my ode  was a bit pain without the help of IDE, <br>
+		but I finally figured it out and it felt exhilarating.
+		Happy Coding :)
+	  <div class="code"><pre><code>
+struct Stack 
+{
+    int data[1024];
+    int top;
+};
+
+int main()
+{
+    char MESSAGE[101];
+    scanf("%[^\n]", MESSAGE);
+    // Write an answer using printf(). DON'T FORGET THE TRAILING \n
+    // To debug: fprintf(stderr, "Debug messages...\n");
+
+    int output[1024];
+    int output_len = 0;
+    for(int i = 0;  MESSAGE[i] != '\0';++i)
+    {
+        unsigned int c = MESSAGE[i];
+        struct Stack s;
+        s.top = -1;
+        while(c > 0)
+        {
+            int remainder = c % 2;
+            int quotient = c >> 1;
+            c = quotient;
+            s.data[++s.top] = remainder;
+        }
+        //if input is a single character and less than 65, padding is needed. add 0 at the beginning. cuz ASCII characters have 7 bits.
+        if(MESSAGE[i] < 'A')
+        {
+            s.data[++s.top] = 0;
+        }
+        while(s.top > -1)
+        {
+            output[output_len++] = s.data[s.top];
+            s.top--;
+        }
+    }
+
+    char result[1024];
+    int result_index = 0;
+    
+    for(int i = 0; i < output_len; )
+    {
+        //process first block
+        
+        int n = output[i];
+        for(int j = 0; j < 2 - n; ++j)
+        {
+            result[result_index++] = '0';
+        }
+        result[result_index++] = ' ';
+        
+        //process second block -  the number of bits in the series
+        int count;
+        for(count = 1;  output[++i] == n && i < output_len; ++count);
+
+        for(int k = 0; k < count; ++k)
+        {
+            result[result_index++] = '0';
+        }
+        result[result_index++] = ' ';
+    }
+    //the last character has a space, but it is not needed. so just add a null character at that position.
+    result[--result_index] = '\0';
+
+    for(int i = 0; i < result_index; ++i)
+    {
+        printf("%c",result[i]);
+    }
+    return 0;
+}
 	  </code></pre></div>
     	</main>
   	</div>
