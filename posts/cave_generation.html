@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my devlog</title>
+    <style>
+      .code {
+	     background-color : #666666;
+	     border-radius: 25px;
+	     padding: 20px;
+	  }
+      a:link {
+        color: #1C1C1C; 
+      }
+      a:visited {
+        color: #1C1C1C;
+      }
+    </style>
+   </head>
+   <body style ="color: #1C1C1C; background-color: #F8F8F8">
+     <a href="/personal_homepage/index.html">Home</a>
+      <div style="text-align: center;">
+      	<main style="display: inline-block; text-align: left">          
+          <h2> cave generation with cellular automata</h2>
+          <p>
+          Recently, I found a very interesting thing called cellular automata in games development.<br>
+          It apprently is widely used in roguelike games for procedural map generation.<br>
+          What I loved about it was that it had so simple rules and easy to implement, but it can generate <br>
+          very interesting maps.<br>
+          I read some articles about it and try implementing it myself.
+          <a href="https://gamedevelopment.tutsplus.com/tutorials/generate-random-cave-levels-using-cellular-automata--gamedev-9664"> /generate-random-cave-levels-using-cellular-automata</a> <br>
+          <a href="https://blog.jrheard.com/procedural-dungeon-generation-cellular-automata"> procedural-dungeon-generation-cellular-automata </a> <br>
+          </p>
+	  <div class="code"><pre><code>
+	   
+#define ROW 25
+#define COLUMN 25
+#define ALIVE '#'
+#define DEAD '.'
+
+char** generate_dungeon(unsigned int seed)
+{
+	time_t t;
+	srand(seed);
+	char** grids = (char**)calloc(ROW,sizeof(char*));
+	for(int i = 0; i < ROW;++i)
+	{
+		grids[i] = (char*)calloc(COLUMN,sizeof(char));
+	}
+	//initialize a map
+	//randomly set them, wall or ground
+	printf("\n=====Raw Data========\n");
+	for(int i = 0; i <ROW; ++i)
+	{
+		for (int j = 0; j < COLUMN;++j)
+		{
+			int isWall = 0;
+			float x = ((float)rand()/(float)(RAND_MAX));
+			if( x < 0.45)
+			{
+				isWall = 1;
+			}
+			
+			grids[i][j] = isWall ? ALIVE : DEAD;
+			printf("%c",isWall ? ALIVE : DEAD);
+		}
+		printf("\n");
+		
+	}
+	printf("\n===================\n");
+	int iterations = 5;
+	while(iterations > 0)
+	{
+		char newGrids[ROW][COLUMN];
+		//apply rules!
+		for(int i = 0; i <ROW; ++i)
+		{
+			for (int j = 0; j < COLUMN;++j)
+			{
+				//check neighbours
+				int count = 0;
+				for(int k = -1; k < 2;++k)
+				{
+					for(int l = -1; l < 2;++l)
+					{
+						int neighbour_x = i + k;
+						int neighbour_y = j + l;
+						if (k == 0 && l == 0)
+						{
+							//do nothing
+						}
+						else if(neighbour_x < 0 || 
+								neighbour_y < 0 ||
+							    neighbour_x >= ROW ||
+							    neighbour_y >= COLUMN)
+						{
+							count += 2;
+						}
+						else if(grids[neighbour_x][neighbour_y] == ALIVE)
+						{
+							count += 1;
+						}
+					}
+				}
+				
+				if(grids[i][j] == DEAD && count > 5)
+				{
+					newGrids[i][j] = ALIVE;
+				}
+				else if(grids[i][j] == ALIVE && count > 2)
+				{
+					newGrids[i][j] = ALIVE;
+				}
+				else
+				{
+					newGrids[i][j] = DEAD;
+				}
+			}
+		}
+		printf("\n====%d generation====\n", 5 - iterations);
+		for(int i = 0; i < ROW; ++i)
+		{
+			for (int j = 0; j < COLUMN;++j)
+			{
+				printf("%c",newGrids[i][j]);
+			}
+			printf("\n");
+		}
+		printf("\n===================\n");
+		for(int i = 0; i <ROW; ++i)
+		{
+			for (int j = 0; j < COLUMN;++j)
+			{
+				grids[i][j] = newGrids[i][j];
+			}
+		}
+		
+		iterations--;
+	}
+
+	
+	return grids;
+}
+	  </code></pre></div>
+    	</main>
+  	</div>
+	</body>
+</html>
