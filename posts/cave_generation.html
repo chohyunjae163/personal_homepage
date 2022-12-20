@@ -6,7 +6,7 @@
     <title>my devlog</title>
     <style>
       .code {
-	     background-color : #666666;
+	     background-color : #DDDDDD;
 	     border-radius: 25px;
 	     padding: 20px;
 	  }
@@ -30,12 +30,11 @@
           It apprently is widely used in roguelike games for procedural map generation.<br>
           What I loved about it was that it had so simple rules and easy to implement, but it can generate <br>
           very interesting maps.<br>
-          I read some articles about it and try implementing it myself.
-          <a href="https://gamedevelopment.tutsplus.com/tutorials/generate-random-cave-levels-using-cellular-automata--gamedev-9664"> /generate-random-cave-levels-using-cellular-automata</a> <br>
+          I read some articles about it and try implementing it myself. <br>
+          <a href="https://gamedevelopment.tutsplus.com/tutorials/generate-random-cave-levels-using-cellular-automata--gamedev-9664"> generate-random-cave-levels-using-cellular-automata</a> <br>
           <a href="https://blog.jrheard.com/procedural-dungeon-generation-cellular-automata"> procedural-dungeon-generation-cellular-automata </a> <br>
           </p>
 	  <div class="code"><pre><code>
-	   
 #define ROW 25
 #define COLUMN 25
 #define ALIVE '#'
@@ -141,7 +140,6 @@ char** generate_dungeon(unsigned int seed)
 		iterations--;
 	}
 
-	
 	return grids;
 }
 	  </code></pre></div>
