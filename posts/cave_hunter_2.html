@@ -21,10 +21,104 @@
    <body style ="color: #F8F8F8; background-color: #1C1C1C">
      <a href="/personal_homepage/index.html">Home</a>
       <div style="text-align: center;">
-      	<main style="display: inline-block; text-align: left">          
-           - CONTENT GOES HERE - 
+      	<main style="display: inline-block; text-align: left">
+	  <h2> it all starts with a lot of preparation work. </h2>
+	  <p>
+		I have finally started the cave_hunter project!<br>
+		I am following Handmade Heroes series for the Windows setup (WinMain, Callbacks, and etc.). <br>
+		I have successfully created the buffer for storing pixel data and display it to the window. <br>
+		My project plan is after the preparation of the windows framework, <br>
+		I will add my cave-generate file to this project and <br>
+		find a way to show procedurally-generated cave map to a window!<br>
+		Maybe I can do that by applying a certain integer value for a wall and another for a ground to each pixel.<br>
+	  </p>
+          <img src="/personal_homepage/images/day_5_preparation.png" alt="My Image">
 	  <div class="code"><pre><code>
-	    - Code goes here -
+typedef struct win32_window_dimension
+{
+    int Width;
+    int Height;
+}win32_window_dimension;
+
+global_variable int GlobalRunning;
+global_variable win32_offscreen_buffer GlobalBackbuffer;
+
+internal win32_window_dimension
+Win32GetWindowDimension(HWND Window)
+{
+    win32_window_dimension Result;
+    
+    RECT ClientRect;
+    GetClientRect(Window,&ClientRect);
+    Result.Width = ClientRect.right - ClientRect.left;
+    Result.Height = ClientRect.bottom - ClientRect.top;
+    
+    return (Result);
+}
+
+internal void
+RenderWeirdGradient(win32_offscreen_buffer *Buffer, int XOffset, int YOffset)
+{
+    u8 *Row = (u8 *)Buffer->Memory;
+    for(int Y = 0;
+        Y < Buffer->Height;
+        ++Y)
+    {
+        u32* Pixel = (u32*)Row;
+        for(int X = 0;
+            X < Buffer->Width;
+            ++X)
+        {
+            //pixel in memory: BB GG RR XX
+            u8 Red = 0;
+            u8 Green = (u8)( Y + YOffset);
+            u8 Blue = (u8)(X + XOffset);
+            *Pixel++= Red << 16 | Green << 8 | Blue;
+        }
+        Row += Buffer->Pitch;
+    }
+}
+
+internal void
+Win32ResizeDIBSection(win32_offscreen_buffer *Buffer, int Width, int Height)
+{
+    if(Buffer->Memory)
+    {
+        VirtualFree(Buffer->Memory,0,MEM_RELEASE);
+    }
+    Buffer->Width = Width;
+    Buffer->Height = Height;
+    Buffer->BytesPerPixel = 4;
+    Buffer->Pitch = Buffer->Width * Buffer->BytesPerPixel;
+    Buffer->Info.bmiHeader.biSize = sizeof(Buffer->Info.bmiHeader);
+    Buffer->Info.bmiHeader.biWidth = Buffer->Width;
+    // NOTE(casey): when the biHeight field is negative, this is the clue
+    // to Windows to treat this bitmap as top-down, not bottom-up, meaning
+    // that the first bytes of the image are the color for the top left
+    // pixel in the bitmap, not the bottom left!
+    Buffer->Info.bmiHeader.biHeight = -Buffer->Height; //negative value: top-down pitch
+    Buffer->Info.bmiHeader.biPlanes = 1;
+    Buffer->Info.bmiHeader.biBitCount = 32;
+    Buffer->Info.bmiHeader.biCompression = BI_RGB;
+    
+    
+    int BitmapMemorySize = Buffer->BytesPerPixel * (Buffer->Width * Buffer->Height);
+    Buffer->Memory = VirtualAlloc(0,BitmapMemorySize,MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);
+}
+
+internal void
+Win32DisplayBufferInWindow(win32_offscreen_buffer *Buffer, 
+                           HDC DeviceContext, int WindowWidth, int WindowHeight)
+{
+    //TODO: Aspect ratio correction.
+    
+    StretchDIBits(DeviceContext, 
+                  0, 0, WindowWidth, WindowHeight,
+                  0, 0, Buffer->Width, Buffer->Height,
+                  Buffer->Memory, 
+                  &Buffer->Info,
+                  DIB_RGB_COLORS, SRCCOPY);   
+}
 	  </code></pre></div>
     	</main>
   	</div>
