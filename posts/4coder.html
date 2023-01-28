@@ -42,6 +42,7 @@
             <img src="images/4coder_long_parens.png" width=944 height=583 alter="my custom feature">
           </p>
 	  <div class="code"><pre><code>
+
 //4coder_combined_write_commands.cpp
 CUSTOM_COMMAND_SIG(open_long_parens)
 CUSTOM_DOC("At the cusor, insert a '(' and ')' separated by a space.")
@@ -50,8 +51,13 @@ CUSTOM_DOC("At the cusor, insert a '(' and ')' separated by a space.")
     i32 size = sizeof(text) - 1;
     long_braces(app, text, size);	
 }
+
 //4coder_default_map.cpp
 Bind(open_long_parens,      	 KeyCode_9, KeyCode_Shift);
+
+//bindings.4coder
+{ "open_long_parens",     		"9","Shift" },
+
 	  </code></pre></div>
     	</main>
   	</div>
