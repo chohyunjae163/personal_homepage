@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my devlog</title>
+    <style>
+      .code {
+	     background-color : #666666;
+	     border-radius: 25px;
+	     padding: 20px;
+	  }
+      a:link {
+        color: #F8F8F8; 
+      }
+      a:visited {
+        color: #F8F8F8;
+      }
+    </style>
+   </head>
+   <body style ="color: #F8F8F8; background-color: #1C1C1C">
+     <a href="/personal_homepage/index.html">Home</a>
+      <div style="text-align: center;">
+      	<main style="display: inline-block; text-align: left">          
+          <h3> Configuring 4coder!</h3> 
+          <p>
+            I have been using a text editor called 4coder for my project lately.<br>
+            IDEs like Visual Studio is certainly very convinient and has a lot of features.<br>
+            However, because it does a lot of work (which is sometimes repetitive and bothersome) <br>
+            under the hood, a novice programmer like me cannot learn <br>
+            and experience the process of compilation and linking. <br>
+            Thus, I like to use a text editor and a separate debugger instead and compile and debug myself.<br>
+            4coder has been my favourite text editor so far, simple, minimalistic and performant.<br>
+            <a href="https://4coder.net/">4coder</a><br>
+            Also, 4coder is very customizable like emacs.<br>
+            Because this editor can be programmed with its customization API in C/C++ , <br>
+            I can read the customization layer code and alter the editor to my liking, although recompilation is necessary.<br>
+            Working on my cave-hunter project today, I added a custom command for "auto-close parenthesis".<br>
+            If I press a Shift+9, the editor adds two parenthesis and a space between. <br>
+            This is a very tiny feature, but I needed this and felt great implementing a new custom command <br>
+            to my favourite text editor.<br>
+            <img src="">
+          </p>
+	  <div class="code"><pre><code>
+//4coder_combined_write_commands.cpp
+CUSTOM_COMMAND_SIG(open_long_parens)
+CUSTOM_DOC("At the cusor, insert a '(' and ')' separated by a space.")
+{
+    char text[] = "(  )";
+    i32 size = sizeof(text) - 1;
+    long_braces(app, text, size);	
+}
+//4coder_default_map.cpp
+Bind(open_long_parens,      	 KeyCode_9, KeyCode_Shift);
+	  </code></pre></div>
+    	</main>
+  	</div>
+	</body>
+</html>
