@@ -34,8 +34,18 @@
                tutorials of Hamdmade Hero.<br>
                Nonetheless, this series has a lot of valuable information about making games from scratch,<br>
                so I know I will inevitably visit other tutorials of the series time to time to learn new stuff about game programming. <br>
-               Anyway, I am on Day 7 of the series, and I just wanted to layout the groundwork I have implemented while<br>
-               following the series.<br>
+               Anyway, I am on Day 7 of the series, and I just wanted to recap what I have coded and <br>
+	       summarize a list of functions I have implemented while following the series.<br>
+	       <dl>
+		       <dt>Direct Sound API</dt>
+		       <dd>void Win32InitDSound(HWND Window, s32 SamplesPerSecond, s32 BufferSize)</dd>
+		       <dt>XInput Game Controller API</dt>
+		       <dd>void Win32LoadXInput()</dd>
+		       <dt>Windows Rendering - using StretchDIBits funtion</dt>
+		       <dd>win32_window_dimension Win32GetWindowDimension(HWND Window)</dd>
+		       <dd>void Win32ResizeDIBSection(win32_offscreen_buffer *Buffer, int Width, int Height)</dd>
+		       <dd>void Win32DisplayBufferInWindow(win32_offscreen_buffer *Buffer, HDC DeviceContext, int WindowWidth, int WindowHeight)</dd>
+	       </dl>		
              </p>
 	  <div class="code"><pre><code>
     #include <windows.h>
