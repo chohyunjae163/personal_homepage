@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my devlog</title>
+    <style>
+      .code {
+	     background-color : #666666;
+	     border-radius: 25px;
+	     padding: 20px;
+	  }
+      a:link {
+        color: #F8F8F8; 
+      }
+      a:visited {
+        color: #F8F8F8;
+      }
+    </style>
+   </head>
+   <body style ="color: #F8F8F8; background-color: #1C1C1C">
+     <a href="/personal_homepage/index.html">Home</a>
+      <div style="text-align: center;">
+      	<main style="display: inline-block; text-align: left"> 
+          <h2>My Undergrad Paper</h2>
+          <p>
+          I am in my 4th year in college, so I had to write a paper to graduate. <br>
+          My paper is about procedural content generation in games. Specifically, <br>
+          it is about roguelike dungeon map generation. I searched various algorithms and <br>
+          studied their use cases. Among many of them, <br>
+          cellular automata, random walk, binary space partitioning, and
+          simple room replacement are chosen for my paper. <br>
+          I implemented each of them in C language (100%) and described how they can be used <br>
+          in creating random maps in roguelike games. <br>
+          I loved their simplicity and enjoyed the implementation part of them. <br>
+          With a little bit of treaking parameter input here and there, I could make <br>
+          different maps for various use cases.<br>
+          Oh, and for the first time, I used the infamous "goto" statement in C lol.<br>
+          I used the statement when I implemented simple room replacement algorithm.<br>
+          I could have used "continue" statement instead of the goto. However, <br>
+          since I started programming, I heard that the goto statement is bad because it <br>
+          is the cause of spaghetti code, so I should always avoid it. <br>  
+          But, I loved the idea of labeling in code and my code  was shorter than <br>
+          100 lines. Also, I will not maintain this code anyway,so I decided to give it a try.  <br>
+          I posted the simple room replacement code below to show how I used it.<br>
+          Anyway, I am still waiting for the paper to be accepted...<br>
+          </p>
+          <a href="https://github.com/chohyunjae163/undergrad_paper/">Visit Source for my undergrad paper!</a>
+	  <div class="code"><pre><code>
+#ifndef UNICODE
+#define UNICODE
+#endif
+
+#include <stdint.h>
+#include <stdlib.h>
+#include <windows.h>
+
+void simple_room_placement(void* area, int32_t w, int32_t h){
+  if(area == NULL){
+    return;
+  }
+
+  if( w < 1 || h < 1 ){
+    return;
+  }
+
+  LARGE_INTEGER ticks;
+  QueryPerformanceCounter(&ticks);
+  srand((unsigned int) ticks.QuadPart);
+  const int32_t room_num = 12;
+  int32_t current_room = 0;
+
+  uint32_t floor = 255;
+  for(uint32_t i = 0; i < 2;++i) {
+      floor = floor << 8 | 255;
+  }
+  const uint32_t wall = 0;
+  int32_t* map = (int32_t *)area;
+  for(int i = 0; i < w * h; ++i) {
+      map[i] = wall;
+  }
+  const int32_t max_room_length = 200;
+  const int32_t min_room_length = 50;
+  while (current_room < room_num) {
+setup_room:
+    int32_t room_width = rand() % max_room_length;
+    if (room_width < min_room_length) {
+      room_width = min_room_length;
+    }
+    int32_t room_height = rand() % max_room_length;
+    if (room_height < min_room_length) {
+      room_height = min_room_length;
+    }
+    const int32_t pos_x = rand() % w - 1;
+    const int32_t pos_y = rand() % h - 1;
+    const int32_t start_pos = pos_x + (w * pos_y);
+    int32_t current_index = start_pos;
+    for(int32_t r = 0; r < room_height; ++r){
+      current_index += w;
+      if(current_index > w * h){
+        goto setup_room;
+      }
+      for(int32_t c = 0; c < room_width;++c){
+        if(map[current_index + c] == floor){
+         //overlap case. let's go back and setup a room again.
+         goto setup_room;
+        }
+      }
+    }
+    //place a new room
+    current_index = start_pos;
+    for(int32_t r = 0; r < room_height; ++r){
+      current_index += w;
+      for(int32_t c = 0; c < room_width;++c){
+        map[current_index + c] = floor;
+      }
+    }
+    //make 4-way corridors
+    ++current_room;
+  }
+}
+	  </code></pre></div>
+    	</main>
+  	</div>
+	</body>
+</html>
