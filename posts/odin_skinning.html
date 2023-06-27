@@ -25,9 +25,56 @@
           <h3>Skinning Animation with Odin!</h3>
           <p>
             I successfully finished a small program implementing skinnning animation with Odin lang! <br>
-            It was not easy, trying to find functions and and idiomatic ways of programming in Odin. <br>
-            But I completed it and am very satisfied with the result. <br>
+            It was not easy at first, trying to find functions and and idiomatic ways of programming in Odin. <br>
+            But I completed it and am very satisfied with the result, a brave dancing man <br>
+	    I love C language and am still thinking about whether I should give Odin another try or use good old C. <br>
+	    Either way, I am 100% sure that I will stay away from OOP for my future projects and focus more on data itself. <br>
+	    Also, I used a different editor called Helix for this project. It is a Rust-powered modal editor and it was fun to use!<br>
+	    The editor has a similar key binding like Vim and I love it is terminal-based like Vim. <br>
+	    Through this project, I learned D3D11 graphics pipelines and how skinning animation works. <br>
+	    At the end of the day, it is all about calculating vertex position and rotation with bone weights. <br>
           </p>
+	<a href="https://github.com/chohyunjae163/odin_playground/tree/master/d3d/skinning">skinning source code </a>
+	<img src="/personal_homepage/images/skinning.png" alt="skinning character" height="250" width="250" ><br>
+	<div class="code"><pre><code>
+	...
+//update idle animation
+//anim_frame_index = 0
+    cur_anim_frame := anim_frames[anim_frame_index]
+    assert(len(bones) == 112)
+    cur_anim_bone_matrices : [112]Matrix4f32
+    for bone, bone_index in bones {
+      cur_anim_frame_pos := cur_anim_frame.position[bone_index]
+      cur_anim_frame_quat := cur_anim_frame.quaternion[bone_index]
+      s : Matrix4f32 = 1
+      t : Matrix4f32 = 1
+      t[3].xyz = cur_anim_frame_pos.xyz
+      //t = transpose(t)
+      q : Quaternionf32 
+      q.w = cur_anim_frame_quat.w
+      q.x = cur_anim_frame_quat.x
+      q.y = cur_anim_frame_quat.y
+      q.z = cur_anim_frame_quat.z
+      r := matrix4_from_quaternion_f32(q)
+      anim_bone_matrix := t*r*s 
+      parent_anim_bone_matrix : Matrix4f32 = 1
+      if bone.parent > -1 {
+        parent_anim_bone_matrix = cur_anim_bone_matrices[bone.parent]
+      }
+      cur_anim_bone_matrices[bone_index] = parent_anim_bone_matrix * anim_bone_matrix
+    }
+    
+    base_pose_matrices :[112]Matrix4f32
+    for bone,i in bones {
+      base_pose_matrices[i] = cs_bone_matrices_inv[i] * cs_bone_matrices[i]
+    }
+    
+    skinned_pose_matrices : [112]Matrix4f32
+    for bone, i in bones {
+      skinned_pose_matrices[i] = cur_anim_bone_matrices[i] * cs_bone_matrices_inv[i]   
+    }
+	...
+	</code></pre></div>
     	</main>
   	</div>
 	</body>
